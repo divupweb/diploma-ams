@@ -1,0 +1,34 @@
+.header {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: var(--background-color-1);
+  position: relative;
+  z-index: 1;
+  &__wrap {
+    display: flex;
+    align-items: center;
+    margin: var(--undo-safe-margin);
+  }
+  &__title {
+    color: var(--text-color-1);
+    font-size: 2rem;
+    text-transform: capitalize;
+    margin: var(--safe-margin);
+    text-align: center;
+  }
+  &__icon {
+    color: var(--background-color-2);
+    font-size: 3rem !important;
+    margin: var(--safe-margin);
+  }
+}
+@media screen and(max-width:475px) {
+  .header {
+    &__wrap {
+      justify-content: center;
+    }
+    &__title {
+      font-size: 1.2rem;
+    }
+  }
+}
