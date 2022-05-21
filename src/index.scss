@@ -4,16 +4,19 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-
+  text-decoration: none;
   font-family: "Open Sans", sans-serif;
 
   --background-color-1: #1a1f25;
   --background-color-2: #e6b333;
+  --background-color-3: #323232;
+  --background-color-4: rgba(55, 55, 55, 0.8);
 
   --text-color-1: white;
+  --text-color-2: #7f8084;
 
   --safe-margin: 0 15px;
-  --udno-safe-margin: 0 -15px;
+  --undo-safe-margin: 0 -15px;
 }
 html {
   font-size: 16px;

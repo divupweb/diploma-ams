@@ -1,7 +1,26 @@
-.App {
+.app {
   min-width: 320px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  &__main {
+    display: flex;
+    flex-grow: 1;
+  }
+  &__container {
+    background-color: var(--background-color-4);
+    width: 100%;
+    z-index: 1;
+    flex-grow: 1;
+  }
+}
+
+@media screen and(max-width:768px) {
+  .app {
+    &__main {
+      flex-direction: column;
+    }
+  }
 }
