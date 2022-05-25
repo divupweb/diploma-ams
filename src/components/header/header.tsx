@@ -3,6 +3,7 @@ import "./header.scss";
 import pakageJson from "../../../package.json";
 import SecurityIcon from "@mui/icons-material/Security";
 import useTranslate from "../../hooks/useTranslate";
+import { Link } from "react-router-dom";
 
 const Header: React.FC = () => {
   const { languageState, setLanguage } = useTranslate();
@@ -12,7 +13,9 @@ const Header: React.FC = () => {
       <div className="header__container">
         <div className="header__wrap">
           <SecurityIcon className="header__icon"></SecurityIcon>
-          <h1 className="header__title">{pakageJson.name}</h1>
+          <Link className="header__title" to="/">
+            {pakageJson.name}
+          </Link>
         </div>
         <div className="header__language">
           <a

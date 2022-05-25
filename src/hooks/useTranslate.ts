@@ -33,7 +33,7 @@ const useTranslate = () => {
 
   useEffect(() => {
     callbacks.push(setLanguageState);
-    console.log(callbacks);
+
     return () => {
       callbacks = callbacks.filter((f) => f !== setLanguageState);
     };

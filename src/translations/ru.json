@@ -1,3 +1,4 @@
 {
-  "app.version": "версия приложения"
+  "app.version": "версия приложения",
+  "navigation.active_directory": "Активный каталог"
 }

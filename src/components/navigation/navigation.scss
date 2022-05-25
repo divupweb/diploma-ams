@@ -10,12 +10,17 @@
     padding: 10px 15px;
     transition: all 0.3s ease;
     white-space: nowrap;
-    justify-content: center;
+    justify-content: space-between;
+    width: 300px;
 
     > * {
       margin: var(--safe-margin);
     }
     &:hover {
+      color: var(--text-color-1);
+      background-color: var(--background-color-3);
+    }
+    &_active {
       color: var(--text-color-1);
       background-color: var(--background-color-3);
     }
@@ -45,6 +50,7 @@
 @media screen and(max-width:768px) {
   .navigation {
     &__link {
+      width: auto;
       &-icon {
         &-arrow {
           display: none !important;

@@ -1,3 +1,4 @@
 {
-  "app.version": "app version"
+  "app.version": "app version",
+  "navigation.active_directory": "Active Directory"
 }
