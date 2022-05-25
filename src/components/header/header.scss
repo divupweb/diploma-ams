@@ -1,9 +1,11 @@
+@import "../../assets/scss/mixins.scss";
 .header {
   width: 100%;
   padding: 10px 15px;
   background-color: var(--background-color-1);
   position: relative;
   z-index: 1;
+  @include no-select(none);
   &__container {
     display: flex;
     justify-content: space-between;
@@ -37,6 +39,9 @@
     transition: 0.3s ease;
     margin: 0 5px;
     display: block;
+    cursor: pointer;
+    background: none;
+    border: none;
     &-separator {
       color: var(--text-color-1);
       font-size: 1rem;

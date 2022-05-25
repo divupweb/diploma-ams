@@ -1,4 +1,10 @@
 {
   "app.version": "app version",
-  "navigation.active_directory": "Active Directory"
+  "navigation.active_directory": "Active Directory",
+  "active_directory.title": "Active Directory control system",
+  "active_directory.table_title_login": "login",
+  "active_directory.table_title_email": "email",
+  "active_directory.table_title_groups": "groups",
+  "active_directory.table_title_status": "status",
+  "active_directory.table_title_drop": "drop"
 }

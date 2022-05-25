@@ -1,6 +1,6 @@
 {
   "name": "Access management service",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
@@ -44,6 +44,8 @@
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.8.0",
+    "@reduxjs/toolkit": "^1.8.2",
+    "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
     "sass": "^1.52.0"
   }
