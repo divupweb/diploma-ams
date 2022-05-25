@@ -74,7 +74,7 @@ const ActiveDirectory: React.FC = () => {
       </table>
       <button
         onClick={() => {
-          dispatch(test(3));
+          dispatch({ type: "zzz", payload: 777 });
         }}
       >
         text
