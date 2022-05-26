@@ -1,62 +1,19 @@
 @import "../../assets/scss/mixins.scss";
 .active-directory {
   @include no-select(none);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
   &__title {
     font-size: 1.5rem;
     color: var(--text-color-1);
     text-align: center;
-
     &::after {
       content: "";
       display: block;
       width: 200px;
       margin: 10px auto;
       border-bottom: 1px solid var(--text-color-1);
-    }
-  }
-  &__table {
-    font-size: 0.85rem;
-    width: 100%;
-    &-row {
-      background-color: var(--background-color-5);
-      color: var(--text-color-1);
-      &:nth-child(odd) {
-        background-color: var(--background-color-6);
-      }
-    }
-    &-cell {
-      padding: 5px;
-      &-main {
-        text-align: center;
-        &-container {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-      }
-      &-groups {
-        color: var(--text-color-3);
-      }
-    }
-    &-icon {
-      width: 0.85em !important;
-      height: 0.85em !important;
-      margin: 0 5px;
-    }
-  }
-}
-
-@media screen and(max-width:768px) {
-  .active-directory__table-row {
-    .active-directory__table-cell-main:nth-child(2),
-    .active-directory__table-cell:nth-child(2) {
-      display: none;
-    }
-  }
-  .active-directory__table-row {
-    .active-directory__table-cell-main:nth-child(3),
-    .active-directory__table-cell:nth-child(3) {
-      display: none;
     }
   }
 }
