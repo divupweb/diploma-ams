@@ -1,19 +1,35 @@
-import { call, put } from "redux-saga/effects";
-import { test } from "./activeDirectorySlice";
+import axios from "axios";
 
-function resolveAfter2Seconds(x: any): any {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(x);
-      console.log("delay compelete");
-    }, 2000);
-  });
-}
+import { all, put, spawn, takeEvery } from "redux-saga/effects";
+import UserType from "../../types/userType";
+import { activeDirectorySliceActions } from "./activeDirectorySlice";
 
-function* getActiveDirectoryUsers() {
+type fetchUsers = {
+  data: UserType[];
+};
+
+const fetchActiveDirectoryUsersWatcher = function* () {
+  yield takeEvery(
+    activeDirectorySliceActions.fetchAllUsers,
+    fetchActiveDirectoryUsersWorker
+  );
+};
+
+const fetchActiveDirectoryUsersWorker = function* () {
+  yield put(activeDirectorySliceActions.setLoading(true));
+  yield put(activeDirectorySliceActions.setUsers([]));
+
   try {
-    yield call(resolveAfter2Seconds as any);
-    yield put({ type: test.type, payload: 3 });
-  } catch (e) {}
-}
-export default getActiveDirectoryUsers;
+    const response: fetchUsers = yield axios.get(`api/users`);
+    yield put(activeDirectorySliceActions.setUsers(response.data));
+  } catch (e) {
+  } finally {
+    yield put(activeDirectorySliceActions.setLoading(false));
+  }
+};
+
+const activeDirectorySaga = function* () {
+  yield all([spawn(fetchActiveDirectoryUsersWatcher)]);
+};
+
+export default activeDirectorySaga;

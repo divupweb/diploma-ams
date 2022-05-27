@@ -1,7 +1,5 @@
-@import "../../assets/scss/mixins.scss";
 .footer {
   z-index: 1;
-  position: relative;
   bottom: 0;
   width: 100%;
   padding: 20px;
@@ -9,5 +7,4 @@
   color: var(--text-color-1);
   background-color: var(--background-color-1);
   text-align: right;
-  @include no-select(none);
 }

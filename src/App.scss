@@ -1,10 +1,11 @@
+@import "./assets/scss/mixins.scss";
 .app {
   min-width: 320px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
+  @include no-select(none);
   &__main {
     display: flex;
     flex-grow: 1;

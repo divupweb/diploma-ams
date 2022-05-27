@@ -1,8 +1,7 @@
-@import "../../assets/scss/mixins.scss";
 .navigation {
   background-color: var(--background-color-1);
   z-index: 1;
-  @include no-select(none);
+
   &__link {
     color: var(--text-color-2);
     font-size: 1rem;
@@ -39,6 +38,7 @@
 @media screen and(max-width:1368px) {
   .navigation {
     &__link {
+      width: auto;
       &-icon {
         margin-top: 7px;
         &-ad {
@@ -52,7 +52,6 @@
 @media screen and(max-width:768px) {
   .navigation {
     &__link {
-      width: auto;
       &-icon {
         &-arrow {
           display: none !important;

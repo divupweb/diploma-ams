@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import GroupsIcon from "@mui/icons-material/Groups";
@@ -6,14 +7,23 @@ import GroupRemoveIcon from "@mui/icons-material/GroupRemove";
 import useTranslate from "../../../hooks/useTranslate";
 
 import "./adTable.scss";
+import { useEffect, useState } from "react";
+import UserType from "../../../types/userType";
 
 const AdTable = () => {
+  const [state, setState] = useState([]);
   const { t } = useTranslate();
+  const users = useSelector((store: any) => store.activeDirectory.users);
+
+  useEffect(() => {
+    setState(users);
+  }, []);
+
   return (
     <table className="ad-table">
       <thead></thead>
       <tbody>
-        <tr className="ad-table__row">
+        <tr className="ad-table__row ad-table__row-main">
           <td className="ad-table__cell-main">
             <div className="ad-table__cell-main-container">
               <PersonIcon className="ad-table__icon"></PersonIcon>
@@ -48,19 +58,29 @@ const AdTable = () => {
           </td>
         </tr>
 
-        <tr className="ad-table__row">
-          <td className="ad-table__cell">3cx@parimatch.local</td>
-          <td className="ad-table__cell">3cx@pm.by</td>
-          <td className="ad-table__cell ad-table__cell-groups">
-            <ul>
-              <li> - Administrators</li>
-              <li> - Users</li>
-              <li> - Guests</li>
-            </ul>
-          </td>
-          <td className="ad-table__cell">good</td>
-          <td className="ad-table__cell">bad</td>
-        </tr>
+        {state.map((user: UserType) => {
+          return (
+            <tr key={user.login} className="ad-table__row">
+              <td className="ad-table__cell">{user.login}</td>
+              <td className="ad-table__cell">{user.email}</td>
+              <td className="ad-table__cell ad-table__cell-groups">
+                <ul>
+                  {user.groups.map((group: string) => {
+                    return (
+                      <li key={`${user.login} - ${Math.random()}`}>
+                        - {group}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </td>
+              <td className="ad-table__cell">
+                {user.isActive ? "active" : "deactive"}
+              </td>
+              <td className="ad-table__cell">bad</td>
+            </tr>
+          );
+        })}
       </tbody>
       <tfoot></tfoot>
     </table>

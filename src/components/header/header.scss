@@ -1,11 +1,9 @@
-@import "../../assets/scss/mixins.scss";
 .header {
   width: 100%;
   padding: 10px 15px;
   background-color: var(--background-color-1);
-  position: relative;
   z-index: 1;
-  @include no-select(none);
+
   &__container {
     display: flex;
     justify-content: space-between;

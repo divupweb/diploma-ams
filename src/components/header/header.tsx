@@ -4,7 +4,11 @@ import pakageJson from "../../../package.json";
 import SecurityIcon from "@mui/icons-material/Security";
 import useTranslate from "../../hooks/useTranslate";
 import { Link } from "react-router-dom";
-import { eventNames } from "process";
+
+const enum languagesEnum {
+  EN = "en",
+  RU = "ru",
+}
 
 const Header: React.FC = () => {
   const { languageState, setLanguage } = useTranslate();
@@ -21,10 +25,11 @@ const Header: React.FC = () => {
         <div className="header__language">
           <button
             className={`header__language-link ${
-              languageState === "en" && "header__language-link_active"
+              languageState === languagesEnum.EN &&
+              "header__language-link_active"
             }`}
             onClick={() => {
-              setLanguage("en");
+              setLanguage(languagesEnum.EN);
             }}
           >
             en
@@ -32,10 +37,11 @@ const Header: React.FC = () => {
           {<span className="header__language-link-separator">{" | "}</span>}
           <button
             className={`header__language-link ${
-              languageState === "ru" && "header__language-link_active"
+              languageState === languagesEnum.RU &&
+              "header__language-link_active"
             }`}
             onClick={(event) => {
-              setLanguage("ru");
+              setLanguage(languagesEnum.RU);
             }}
           >
             ru

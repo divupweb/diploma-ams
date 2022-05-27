@@ -4,14 +4,18 @@ export const activeDirectorySlice = createSlice({
   name: "active_directory",
   initialState: {
     loading: true,
+    users: [],
   },
   reducers: {
-    test: (state, action) => {
-      console.log("test");
-      state.loading = false;
+    fetchAllUsers: () => {},
+    setLoading: (state, { payload }) => {
+      state.loading = payload;
+    },
+    setUsers: (state, { payload }) => {
+      state.users = payload;
     },
   },
 });
 
-export const { test } = activeDirectorySlice.actions;
-export default activeDirectorySlice.reducer;
+export const activeDirectorySliceActions = { ...activeDirectorySlice.actions };
+export const activeDirectorySliceReducer = activeDirectorySlice.reducer;

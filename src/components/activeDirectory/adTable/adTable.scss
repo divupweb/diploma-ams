@@ -1,16 +1,24 @@
+@import "../../../assets/scss/mixins.scss";
 .ad-table {
   font-size: 0.85rem;
   width: 100%;
+  position: relative;
   &__row {
     background-color: var(--background-color-5);
     color: var(--text-color-1);
+    &-main {
+      position: sticky;
+      top: 0;
+    }
     &:nth-child(odd) {
       background-color: var(--background-color-6);
     }
   }
   &__cell {
     padding: 5px;
+
     &-main {
+      padding: 5px;
       text-align: center;
       &-container {
         display: flex;
@@ -28,7 +36,7 @@
     margin: 0 5px;
   }
 }
-@media screen and(max-width:768px) {
+@media screen and(max-width:1024px) {
   .ad-table__row {
     .ad-table__cell-main:nth-child(2),
     .ad-table__cell:nth-child(2) {
