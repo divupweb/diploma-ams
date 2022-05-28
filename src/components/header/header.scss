@@ -2,8 +2,13 @@
   width: 100%;
   padding: 10px 15px;
   background-color: var(--background-color-1);
-  position: relative;
   z-index: 1;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   &__wrap {
     display: flex;
     align-items: center;
@@ -20,6 +25,32 @@
     color: var(--background-color-2);
     font-size: 3rem !important;
     margin: var(--safe-margin);
+  }
+  &__language {
+    white-space: nowrap;
+    display: flex;
+    margin: 0 -5px;
+  }
+  &__language-link {
+    font-size: 1rem;
+    color: var(--text-color-2);
+    transition: 0.3s ease;
+    margin: 0 5px;
+    display: block;
+    cursor: pointer;
+    background: none;
+    border: none;
+    &-separator {
+      color: var(--text-color-1);
+      font-size: 1rem;
+      display: block;
+    }
+    &:hover {
+      color: var(--text-color-1);
+    }
+    &_active {
+      color: var(--text-color-1);
+    }
   }
 }
 @media screen and(max-width:475px) {

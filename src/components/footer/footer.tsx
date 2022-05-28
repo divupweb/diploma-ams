@@ -1,9 +1,13 @@
 import "./footer.scss";
 import pakageJson from "../../../package.json";
-const Footer = () => {
+import React from "react";
+import useTranslate from "../../hooks/useTranslate";
+const Footer: React.FC = () => {
+  const { t } = useTranslate();
+
   return (
     <footer className="footer">
-      {`${pakageJson.name}:  app version: ${pakageJson.version}`}
+      {`${pakageJson.name} -  ${t("app.version")}: ${pakageJson.version}`}
     </footer>
   );
 };
