@@ -10,15 +10,13 @@ import AdTable from "./adTable/adTable";
 
 const ActiveDirectory: React.FC = () => {
   const { t } = useTranslate();
-  const loadingStatus = useSelector(
-    (store: StoreType) => store.activeDirectory.loading
-  );
+  const loadingStatus = useSelector((store: StoreType) => store.activeDirectory.loading);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     return () => {
-      dispatch({ type: activeDirectorySliceActions.fetchAllUsers.type });
+      dispatch(activeDirectorySliceActions.fetchAllUsers());
     };
   }, []);
 

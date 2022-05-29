@@ -1,0 +1,72 @@
+@import "../../assets/scss/mixins.scss";
+.notifications {
+  position: absolute;
+  bottom: 100px;
+  right: 15px;
+  z-index: 2;
+  &__item {
+    display: flex;
+    width: 400px;
+    padding: 15px;
+    background-color: var(--background-color-7);
+    box-shadow: 0 5px 10px 2px rgb(255 0 0 / 20%);
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 1rem;
+    color: var(--text-color-1);
+    animation: fade-in 2s ease;
+    &-content {
+      width: 100%;
+      margin: var(--safe-margin);
+    }
+    &-close {
+      align-self: flex-end;
+      cursor: pointer;
+    }
+    &-wrapper {
+      display: flex;
+      align-items: center;
+    }
+    &-image {
+      > * {
+        width: 3rem !important;
+        height: 3rem !important;
+      }
+    }
+    &-date {
+      font-size: 0.75rem;
+      color: var(--text-color-2);
+      align-self: flex-end;
+    }
+    &-text {
+      @include no-select(text);
+    }
+  }
+}
+.notifications__item_error .notifications__item-title {
+  color: var(--text-color-4);
+}
+.notifications__item_error .notifications__item-image {
+  color: var(--text-color-4);
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .notifications {
+    width: 100%;
+    right: 0;
+    min-width: 300px;
+    &__item {
+      width: 95%;
+      margin: auto;
+    }
+  }
+}

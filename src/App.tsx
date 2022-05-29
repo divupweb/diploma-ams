@@ -8,6 +8,7 @@ import BackgroundVideo from "./components/controls/backgroundVideo/backgroundVid
 import Footer from "./components/footer/footer";
 import Header from "./components/header/header";
 import Navigation from "./components/navigation/navigation";
+import Notifications from "./components/notifications/notifications";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             </section>
           </main>
           <BackgroundVideo />
+          <Notifications></Notifications>
           <Footer></Footer>
         </div>
       </BrowserRouter>

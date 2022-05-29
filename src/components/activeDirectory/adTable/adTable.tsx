@@ -11,12 +11,12 @@ import { useEffect, useState } from "react";
 import UserType from "../../../types/userType";
 
 const AdTable = () => {
-  const [state, setState] = useState([]);
+  const [adUsers, setAdUsers] = useState([]);
   const { t } = useTranslate();
   const users = useSelector((store: any) => store.activeDirectory.users);
 
   useEffect(() => {
-    setState(users);
+    setAdUsers(users);
   }, []);
 
   return (
@@ -58,7 +58,7 @@ const AdTable = () => {
           </td>
         </tr>
 
-        {state.map((user: UserType) => {
+        {adUsers.map((user: UserType) => {
           return (
             <tr key={user.login} className="ad-table__row">
               <td className="ad-table__cell">{user.login}</td>
@@ -66,17 +66,11 @@ const AdTable = () => {
               <td className="ad-table__cell ad-table__cell-groups">
                 <ul>
                   {user.groups.map((group: string) => {
-                    return (
-                      <li key={`${user.login} - ${Math.random()}`}>
-                        - {group}
-                      </li>
-                    );
+                    return <li key={`${user.login} - ${Math.random()}`}>- {group}</li>;
                   })}
                 </ul>
               </td>
-              <td className="ad-table__cell">
-                {user.isActive ? "active" : "deactive"}
-              </td>
+              <td className="ad-table__cell">{user.isActive ? "active" : "deactive"}</td>
               <td className="ad-table__cell">bad</td>
             </tr>
           );

@@ -1,7 +1,9 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 import { all, put, spawn, takeEvery } from "redux-saga/effects";
+import notificationEnum from "../../enums/notificationEnum";
 import UserType from "../../types/userType";
+import { notificationsSliceAction } from "../notifications/notificationsSlice";
 import { activeDirectorySliceActions } from "./activeDirectorySlice";
 
 type fetchUsers = {
@@ -9,10 +11,7 @@ type fetchUsers = {
 };
 
 const fetchActiveDirectoryUsersWatcher = function* () {
-  yield takeEvery(
-    activeDirectorySliceActions.fetchAllUsers,
-    fetchActiveDirectoryUsersWorker
-  );
+  yield takeEvery(activeDirectorySliceActions.fetchAllUsers, fetchActiveDirectoryUsersWorker);
 };
 
 const fetchActiveDirectoryUsersWorker = function* () {
@@ -20,9 +19,16 @@ const fetchActiveDirectoryUsersWorker = function* () {
   yield put(activeDirectorySliceActions.setUsers([]));
 
   try {
-    const response: fetchUsers = yield axios.get(`api/users`);
+    const response: fetchUsers = yield axios.get(`api/users5`);
     yield put(activeDirectorySliceActions.setUsers(response.data));
   } catch (e) {
+    const error = e as AxiosError;
+    yield put(
+      notificationsSliceAction.addNotification({
+        type: notificationEnum.ERROR,
+        message: error.message,
+      })
+    );
   } finally {
     yield put(activeDirectorySliceActions.setLoading(false));
   }
