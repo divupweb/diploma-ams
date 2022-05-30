@@ -10,7 +10,9 @@ import AdTable from "./adTable/adTable";
 
 const ActiveDirectory: React.FC = () => {
   const { t } = useTranslate();
-  const loadingStatus = useSelector((store: StoreType) => store.activeDirectory.loading);
+  const loadingStatus = useSelector(
+    (store: StoreType) => store.activeDirectory.loading
+  );
 
   const dispatch = useDispatch();
 
@@ -23,7 +25,7 @@ const ActiveDirectory: React.FC = () => {
   return (
     <div className="active-directory">
       <h2 className="active-directory__title">{t("active_directory.title")}</h2>
-      {loadingStatus ? <Loader /> : <AdTable />}
+      <AdTable />
     </div>
   );
 };

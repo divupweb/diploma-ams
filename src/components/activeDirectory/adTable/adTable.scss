@@ -6,17 +6,29 @@
   &__row {
     background-color: var(--background-color-5);
     color: var(--text-color-1);
+    transition: all 0.2s ease;
     &-main {
       position: sticky;
       top: 0;
+      &:hover {
+        background-color: var(--background-color-6) !important;
+        color: var(--text-color-1) !important;
+      }
     }
     &:nth-child(odd) {
       background-color: var(--background-color-6);
     }
+    &:hover {
+      background-color: var(--background-color-2);
+      color: var(--text-color-5);
+    }
   }
   &__cell {
     padding: 5px;
-
+    &_align {
+      text-align: center;
+      vertical-align: middle;
+    }
     &-main {
       padding: 5px;
       text-align: center;
@@ -35,7 +47,14 @@
     height: 0.85em !important;
     margin: 0 5px;
   }
+  &__drop {
+    cursor: pointer;
+  }
 }
+.ad-table__row:hover .ad-table__cell-groups {
+  color: black;
+}
+
 @media screen and(max-width:1024px) {
   .ad-table__row {
     .ad-table__cell-main:nth-child(2),

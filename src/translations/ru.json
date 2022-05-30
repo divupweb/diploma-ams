@@ -6,5 +6,7 @@
   "active_directory.table_title_email": "почта",
   "active_directory.table_title_groups": "группы",
   "active_directory.table_title_status": "статус",
-  "active_directory.table_title_drop": "удалить"
+  "active_directory.table_title_drop": "удалить",
+  "notifications.error": "ошибка",
+  "notifications.success": "успешно"
 }

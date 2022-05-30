@@ -6,5 +6,7 @@
   "active_directory.table_title_email": "email",
   "active_directory.table_title_groups": "groups",
   "active_directory.table_title_status": "status",
-  "active_directory.table_title_drop": "drop"
+  "active_directory.table_title_drop": "drop",
+  "notifications.error": "error",
+  "notifications.success": "success"
 }

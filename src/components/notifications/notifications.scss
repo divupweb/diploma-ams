@@ -1,10 +1,11 @@
 @import "../../assets/scss/mixins.scss";
 .notifications {
-  position: absolute;
-  bottom: 100px;
-  right: 15px;
+  position: fixed;
+  bottom: 25px;
+  right: 10px;
   z-index: 2;
   &__item {
+    margin: 10px 0;
     display: flex;
     width: 400px;
     padding: 15px;
@@ -49,6 +50,12 @@
 .notifications__item_error .notifications__item-image {
   color: var(--text-color-4);
 }
+.notifications__item_success .notifications__item-title {
+  color: var(--text-color-6);
+}
+.notifications__item_success .notifications__item-image {
+  color: var(--text-color-6);
+}
 
 @keyframes fade-in {
   0% {
@@ -66,7 +73,7 @@
     min-width: 300px;
     &__item {
       width: 95%;
-      margin: auto;
+      margin: 10px auto;
     }
   }
 }

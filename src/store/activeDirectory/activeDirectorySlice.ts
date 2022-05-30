@@ -8,6 +8,7 @@ export const activeDirectorySlice = createSlice({
   },
   reducers: {
     fetchAllUsers: () => {},
+    dropUser: (state, { payload }) => {},
     setLoading: (state, { payload }) => {
       state.loading = payload;
     },

@@ -11,14 +11,21 @@ export const notificationsSlice = createSlice({
   initialState,
   reducers: {
     addNotification: (state, { payload }) => {
-      const notificationsArray: NotificationType[] = state.notifications;
+      let notificationsArray: NotificationType[] = state.notifications;
+      notificationsArray =
+        notificationsArray.length < 5
+          ? notificationsArray
+          : notificationsArray.slice(1);
       notificationsArray.push(payload);
+
       state.notifications = notificationsArray;
     },
     removeNotification: (state, { payload }) => {
-      const notificationsArray: NotificationType[] = state.notifications.filter((_, index) => {
-        return index !== payload;
-      });
+      const notificationsArray: NotificationType[] = state.notifications.filter(
+        (_, index) => {
+          return index !== payload;
+        }
+      );
       state.notifications = notificationsArray;
     },
   },
