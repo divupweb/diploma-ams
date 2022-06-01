@@ -40,7 +40,7 @@ const Header: React.FC = () => {
               languageState === languagesEnum.RU &&
               "header__language-link_active"
             }`}
-            onClick={(event) => {
+            onClick={() => {
               setLanguage(languagesEnum.RU);
             }}
           >

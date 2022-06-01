@@ -1,4 +1,5 @@
 type UserType = {
+  dn: string;
   login: string;
   firstName: string;
   lastName: string;
