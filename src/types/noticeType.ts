@@ -1,7 +1,10 @@
+import { AnyAction } from "@reduxjs/toolkit";
+import UserType from "./userType";
+
 type NoticeType = {
-  action: any;
-  data: any;
-  decision: any;
+  action?: any;
+  data?: UserType;
+  decision?: string;
 };
 
 export default NoticeType;

@@ -26,7 +26,7 @@ const Confirmation: React.FC = () => {
         <div className="confirmation">
           <div className="confirmation__container">
             <h3 className="confirmation__title">{t("confirmation.title")}</h3>
-            <div className="confirmation__text">{`${notice.decision} ${notice.data.login}`}</div>
+            <div className="confirmation__text">{`${notice.decision} ${notice.data?.login}`}</div>
             <div className="confirmation__wrap">
               <button
                 onClick={() => {

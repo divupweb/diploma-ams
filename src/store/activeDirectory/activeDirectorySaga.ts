@@ -8,7 +8,7 @@ import UserType from "../../types/userType";
 import { notificationsSliceAction } from "../notifications/notificationsSlice";
 import { activeDirectorySliceActions } from "./activeDirectorySlice";
 
-type fetchUsers = {
+type FetchUsersType = {
   data: UserType[];
 };
 
@@ -24,7 +24,7 @@ const fetchActiveDirectoryUsersWorker = function* () {
   yield put(activeDirectorySliceActions.setUsers([]));
 
   try {
-    const response: fetchUsers = yield axios.get(`api/users`);
+    const response: FetchUsersType = yield axios.get(`api/users`);
     yield put(activeDirectorySliceActions.setUsers(response.data));
   } catch (e) {
     const error = e as AxiosError;
@@ -50,8 +50,8 @@ const dropActiveDirectoryUserWatcher = function* () {
 const dropActiveDirectoryUserWorker = function* (data: any) {
   yield put(activeDirectorySliceActions.setPreLoading(true));
   try {
-    const response: fetchUsers = yield axios.delete(
-      `api/user_delete:${data.payload.dn}`
+    const response: FetchUsersType = yield axios.delete(
+      `api/user_delete/${data.payload.dn}`
     );
     yield put(activeDirectorySliceActions.setUsers(response.data));
     yield put(
@@ -77,9 +77,48 @@ const dropActiveDirectoryUserWorker = function* (data: any) {
   }
 };
 
+const changeActiveDirectoryStatusWatcher = function* () {
+  yield takeEvery(
+    activeDirectorySliceActions.changeStatus,
+    changeActiveDirectoryStatusWorker
+  );
+};
+
+const changeActiveDirectoryStatusWorker = function* (data: any) {
+  yield put(activeDirectorySliceActions.setPreLoading(true));
+  try {
+    const response: FetchUsersType = yield axios.put(
+      `api/user_change_status/${data.payload.user.dn}`
+    );
+
+    yield put(activeDirectorySliceActions.setUsers(response.data));
+    yield put(
+      notificationsSliceAction.addNotification({
+        type: notificationEnum.SUCCESS,
+        message: `${data.payload.user.login}`,
+        date: dateNow(),
+        action: "notifications.user_status_change",
+      })
+    );
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(
+      notificationsSliceAction.addNotification({
+        type: notificationEnum.ERROR,
+        message: error.message,
+        action: "notifications.user_change_status_error",
+        date: dateNow(),
+      })
+    );
+  } finally {
+    yield put(activeDirectorySliceActions.setPreLoading(false));
+  }
+};
+
 const activeDirectorySaga = function* () {
   yield all([spawn(fetchActiveDirectoryUsersWatcher)]);
   yield all([spawn(dropActiveDirectoryUserWatcher)]);
+  yield all([spawn(changeActiveDirectoryStatusWatcher)]);
 };
 
 export default activeDirectorySaga;

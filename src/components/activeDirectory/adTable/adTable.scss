@@ -51,6 +51,16 @@
   &__drop {
     cursor: pointer;
   }
+  &__status {
+    &-check {
+      cursor: pointer;
+      color: var(--text-color-6);
+    }
+    &-close {
+      cursor: pointer;
+      color: var(--text-color-4);
+    }
+  }
 }
 .ad-table__row:hover .ad-table__cell-groups {
   color: black;

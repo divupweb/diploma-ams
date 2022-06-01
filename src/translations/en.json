@@ -11,8 +11,10 @@
   "notifications.success": "success",
   "notifications.warning": "warning",
   "notifications.user_drop": "user where droped:",
+  "notifications.user_status_change": "user status where changed:",
   "notifications.user_drop_error": "failed to drop user:",
   "notifications.user_get_error": "failed to get users:",
+  "notifications.user_change_status_error": "failed to change user status:",
   "confirmation.title": "confirm your decision",
   "confirmation.user_drop": "you want to delete this user: "
 }

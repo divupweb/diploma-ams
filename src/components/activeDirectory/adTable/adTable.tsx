@@ -6,7 +6,7 @@ import SignalCellularConnectedNoInternet1BarIcon from "@mui/icons-material/Signa
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import useTranslate from "../../../hooks/useTranslate";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import CheckIcon from "@mui/icons-material/Check";
 import "./adTable.scss";
 import React from "react";
 import UserType from "../../../types/userType";
@@ -14,6 +14,7 @@ import { activeDirectorySliceActions } from "../../../store/activeDirectory/acti
 import StoreType from "../../../types/storeType";
 import Loader from "../../controls/loader/loader";
 import { confirmationSliceActions } from "../../../store/confirmation/confirmationSlice";
+import CloseIcon from "@mui/icons-material/Close";
 
 const AdTable = () => {
   const { t } = useTranslate();
@@ -31,6 +32,15 @@ const AdTable = () => {
         decision: t("confirmation.user_drop"),
         data: user,
         action: activeDirectorySliceActions.dropUser(user),
+      })
+    );
+  };
+
+  const changeUserStatus = (user: UserType, flag: boolean) => {
+    dispatch(
+      activeDirectorySliceActions.changeStatus({
+        user,
+        flag,
       })
     );
   };
@@ -93,7 +103,21 @@ const AdTable = () => {
                     </ul>
                   </td>
                   <td className="ad-table__cell ad-table__cell_align">
-                    {user.isActive ? "active" : "deactive"}
+                    {user.isActive ? (
+                      <CheckIcon
+                        onClick={() => {
+                          changeUserStatus(user, false);
+                        }}
+                        className="ad-table__status-check"
+                      />
+                    ) : (
+                      <CloseIcon
+                        onClick={() => {
+                          changeUserStatus(user, true);
+                        }}
+                        className="ad-table__status-close"
+                      />
+                    )}
                   </td>
                   <td className="ad-table__cell ad-table__cell_align">
                     <DeleteIcon

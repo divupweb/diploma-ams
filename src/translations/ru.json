@@ -11,8 +11,11 @@
   "notifications.success": "успешно",
   "notifications.warning": "предупреждение",
   "notifications.user_drop": "пользователь был удален:",
+  "notifications.user_status_change": "статус пользователя был изменен:",
   "notifications.user_drop_error": "не удалось удалить пользователя:",
   "notifications.user_get_error": "не удалось получить пользователей:",
+  "notifications.user_change_status_error": "не удалось изменить статус пользователя:",
+
   "confirmation.title": "подтвердите ваше действие",
   "confirmation.user_drop": "вы хотите удалить этого пользователя: "
 }
