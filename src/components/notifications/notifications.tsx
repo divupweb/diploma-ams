@@ -9,9 +9,10 @@ import notificationEnum from "../../enums/notificationEnum";
 import { notificationsSliceAction } from "../../store/notifications/notificationsSlice";
 import useTranslate from "../../hooks/useTranslate";
 import DoneIcon from "@mui/icons-material/Done";
+import WarningIcon from "@mui/icons-material/Warning";
 
 const Notifications: React.FC = () => {
-  const notifications = useSelector(
+  const notifications: NotificationType[] = useSelector(
     (store: StoreType) => store.notifications.notifications
   );
   const dispatch = useDispatch();
@@ -25,6 +26,8 @@ const Notifications: React.FC = () => {
             ? "notifications__item_error"
             : notification.type === notificationEnum.SUCCESS
             ? "notifications__item_success"
+            : notification.type === notificationEnum.WARNING
+            ? "notifications__item_warning"
             : "";
         return (
           <div
@@ -43,6 +46,8 @@ const Notifications: React.FC = () => {
                   <NewReleasesIcon />
                 ) : notification.type === notificationEnum.SUCCESS ? (
                   <DoneIcon />
+                ) : notification.type === notificationEnum.WARNING ? (
+                  <WarningIcon />
                 ) : (
                   ""
                 )}
@@ -52,7 +57,7 @@ const Notifications: React.FC = () => {
                   {t(`notifications.${notification.type}`)}
                 </div>
                 <div className="notifications__item-text">
-                  {notification.message}
+                  {t(notification.action)} {notification.message}
                 </div>
               </div>
             </div>

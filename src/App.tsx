@@ -9,6 +9,8 @@ import Footer from "./components/footer/footer";
 import Header from "./components/header/header";
 import Navigation from "./components/navigation/navigation";
 import Notifications from "./components/notifications/notifications";
+import PreLoader from "./components/controls/preLoader/preLoader";
+import Confirmation from "./components/confirmation/confirmation";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
           </main>
           <BackgroundVideo />
           <Notifications></Notifications>
+          <PreLoader></PreLoader>
+          <Confirmation></Confirmation>
           <Footer></Footer>
         </div>
       </BrowserRouter>

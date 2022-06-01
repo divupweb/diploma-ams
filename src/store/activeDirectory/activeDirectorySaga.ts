@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import { all, put, spawn, takeEvery } from "redux-saga/effects";
 import notificationEnum from "../../enums/notificationEnum";
 import dateNow from "../../helpers/dateNow";
-import useTranslate from "../../hooks/useTranslate";
+
 import UserType from "../../types/userType";
 import { notificationsSliceAction } from "../notifications/notificationsSlice";
 import { activeDirectorySliceActions } from "./activeDirectorySlice";
@@ -32,6 +32,8 @@ const fetchActiveDirectoryUsersWorker = function* () {
       notificationsSliceAction.addNotification({
         type: notificationEnum.ERROR,
         message: error.message,
+        date: dateNow(),
+        action: "notifications.user_get_error",
       })
     );
   } finally {
@@ -46,7 +48,7 @@ const dropActiveDirectoryUserWatcher = function* () {
   );
 };
 const dropActiveDirectoryUserWorker = function* (data: any) {
-  yield put(activeDirectorySliceActions.setLoading(true));
+  yield put(activeDirectorySliceActions.setPreLoading(true));
   try {
     const response: fetchUsers = yield axios.delete(
       `api/user_delete:${data.payload.dn}`
@@ -54,9 +56,10 @@ const dropActiveDirectoryUserWorker = function* (data: any) {
     yield put(activeDirectorySliceActions.setUsers(response.data));
     yield put(
       notificationsSliceAction.addNotification({
-        type: notificationEnum.SUCCESS,
-        message: `${data.payload.login} where droped.`,
+        type: notificationEnum.WARNING,
+        message: `${data.payload.login}`,
         date: dateNow(),
+        action: "notifications.user_drop",
       })
     );
   } catch (e) {
@@ -65,11 +68,12 @@ const dropActiveDirectoryUserWorker = function* (data: any) {
       notificationsSliceAction.addNotification({
         type: notificationEnum.ERROR,
         message: error.message,
+        action: "notifications.user_drop_error",
         date: dateNow(),
       })
     );
   } finally {
-    yield put(activeDirectorySliceActions.setLoading(false));
+    yield put(activeDirectorySliceActions.setPreLoading(false));
   }
 };
 
