@@ -7,6 +7,7 @@ import StoreType from "../../types/storeType";
 import React from "react";
 import { confirmationSliceActions } from "../../store/confirmation/confirmationSlice";
 import NoticeType from "../../types/noticeType";
+
 const Confirmation: React.FC = () => {
   const { t } = useTranslate();
   const notice: NoticeType | null = useSelector(
@@ -16,7 +17,7 @@ const Confirmation: React.FC = () => {
 
   const confirmAction = (flag: boolean) => {
     if (flag) {
-      dispatch(notice?.action);
+      dispatch<any>(notice?.action);
     }
     dispatch(confirmationSliceActions.confirm(null));
   };

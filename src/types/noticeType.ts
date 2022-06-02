@@ -1,8 +1,8 @@
-import { AnyAction } from "@reduxjs/toolkit";
+import { activeDirectorySliceActions } from "../store/activeDirectory/activeDirectorySlice";
 import UserType from "./userType";
 
 type NoticeType = {
-  action?: any;
+  action?: typeof activeDirectorySliceActions.dropUser.type;
   data?: UserType;
   decision?: string;
 };

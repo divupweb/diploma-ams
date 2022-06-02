@@ -5,6 +5,7 @@ const initialState: ActiveDirectoryType = {
   loading: true,
   users: [],
   preLoading: false,
+  searchingUser: "",
 };
 
 export const activeDirectorySlice = createSlice({
@@ -22,6 +23,9 @@ export const activeDirectorySlice = createSlice({
     },
     setPreLoading: (state, { payload }) => {
       state.preLoading = payload;
+    },
+    setSearch: (state, { payload }) => {
+      state.searchingUser = payload;
     },
   },
 });

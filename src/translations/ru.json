@@ -3,6 +3,8 @@
   "navigation.active_directory": "Активный каталог",
   "active_directory.title": "Система управления Активным Каталогом",
   "active_directory.table_title_login": "логин",
+  "active_directory.table_title_surname": "фамилия",
+  "active_directory.table_title_firstname": "имя",
   "active_directory.table_title_email": "почта",
   "active_directory.table_title_groups": "группы",
   "active_directory.table_title_status": "статус",
@@ -15,7 +17,7 @@
   "notifications.user_drop_error": "не удалось удалить пользователя:",
   "notifications.user_get_error": "не удалось получить пользователей:",
   "notifications.user_change_status_error": "не удалось изменить статус пользователя:",
-
   "confirmation.title": "подтвердите ваше действие",
-  "confirmation.user_drop": "вы хотите удалить этого пользователя: "
+  "confirmation.user_drop": "вы хотите удалить этого пользователя: ",
+  "search.title": "поиск по логину"
 }
