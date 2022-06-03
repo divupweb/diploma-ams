@@ -17,7 +17,18 @@
   "notifications.user_drop_error": "failed to drop user:",
   "notifications.user_get_error": "failed to get users:",
   "notifications.user_change_status_error": "failed to change user status:",
+  "notifications.groups_get_error": "failed to get list of groups:",
   "confirmation.title": "confirm your decision",
   "confirmation.user_drop": "you want to delete this user: ",
-  "search.title": "search by login"
+  "search.title": "search by login",
+  "user_create.link": "user creation",
+  "user_create.title": "Access management service - user add",
+  "user_create.generated_data": "generated data:",
+  "user_create.generated_name": "name",
+  "user_create.generated_surname": "surname",
+  "user_create.generated_email": "email",
+  "user_create.generated_login": "login",
+  "user_create.generated_password": "password",
+  "text_input_placeholder_name": "enter user name",
+  "text_input_placeholder_surname": "enter user surname"
 }

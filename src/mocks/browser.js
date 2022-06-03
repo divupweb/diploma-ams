@@ -1,9 +1,13 @@
 import { setupWorker, rest } from "msw";
 import users from "./users.json";
+import groups from "./groups.json";
 
 const worker = setupWorker(
   rest.get("/api/users", (req, res, ctx) => {
     return res(ctx.delay(2000), ctx.json(users));
+  }),
+  rest.get("/api/groups", (req, res, ctx) => {
+    return res(ctx.delay(2000), ctx.json(groups));
   }),
   rest.delete("/api/user_delete/:dn", (req, res, ctx) => {
     const userDnToDrop = req.params.dn;

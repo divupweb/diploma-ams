@@ -6,10 +6,12 @@
   table-layout: fixed;
   margin-top: 15px;
   box-shadow: 0 5px 30px 0 rgba(0, 0, 0, 0.2);
+
   &__row {
     background-color: var(--background-color-1);
     color: var(--text-color-1);
     transition: all 0.2s ease;
+    animation: fade-in 0.3s ease;
     &-main {
       position: sticky;
       top: 0;
@@ -109,10 +111,26 @@
   }
 }
 @media screen and(max-width:768px) {
+  .ad-table__cell {
+    word-wrap: normal;
+  }
+  .ad-table__row td:nth-child(6),
+  .ad-table__row td:nth-child(7) {
+    width: auto;
+  }
   .ad-table__row {
     .ad-table__cell-main:nth-child(5),
     .ad-table__cell:nth-child(5) {
       display: none;
     }
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

@@ -3,6 +3,7 @@ import axios, { AxiosError } from "axios";
 import { all, put, spawn, takeEvery } from "redux-saga/effects";
 import notificationEnum from "../../enums/notificationEnum";
 import dateNow from "../../helpers/dateNow";
+import GroupsType from "../../types/groupsType";
 
 import UserType from "../../types/userType";
 import { notificationsSliceAction } from "../notifications/notificationsSlice";
@@ -10,6 +11,9 @@ import { activeDirectorySliceActions } from "./activeDirectorySlice";
 
 type FetchUsersType = {
   data: UserType[];
+};
+type FetchGroupsType = {
+  data: GroupsType[];
 };
 
 const fetchActiveDirectoryUsersWatcher = function* () {
@@ -115,10 +119,37 @@ const changeActiveDirectoryStatusWorker = function* (data: any) {
   }
 };
 
+const fetchActiveDirectoryGroupsWatcher = function* () {
+  yield takeEvery(
+    activeDirectorySliceActions.fetchAllGroups,
+    fetchActiveDirectoryGroupsWorker
+  );
+};
+const fetchActiveDirectoryGroupsWorker = function* () {
+  yield put(activeDirectorySliceActions.setLoading(true));
+  try {
+    const response: FetchGroupsType = yield axios.get(`api/groups`);
+    yield put(activeDirectorySliceActions.setGroups(response.data));
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(
+      notificationsSliceAction.addNotification({
+        type: notificationEnum.ERROR,
+        message: error.message,
+        action: "notifications.groups_get_error",
+        date: dateNow(),
+      })
+    );
+  } finally {
+    yield put(activeDirectorySliceActions.setLoading(false));
+  }
+};
+
 const activeDirectorySaga = function* () {
   yield all([spawn(fetchActiveDirectoryUsersWatcher)]);
   yield all([spawn(dropActiveDirectoryUserWatcher)]);
   yield all([spawn(changeActiveDirectoryStatusWatcher)]);
+  yield all([spawn(fetchActiveDirectoryGroupsWatcher)]);
 };
 
 export default activeDirectorySaga;

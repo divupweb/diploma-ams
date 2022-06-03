@@ -5,6 +5,8 @@ type ActiveDirectoryType = {
   users: UserType[];
   preLoading: boolean;
   searchingUser: string;
+  userGroups: string[];
+  pcGroups: string[];
 };
 
 export default ActiveDirectoryType;

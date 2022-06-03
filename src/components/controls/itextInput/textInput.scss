@@ -1,0 +1,39 @@
+.text-input {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  align-self: flex-end;
+  width: 300px;
+  &__label {
+    color: var(--text-color-1);
+    background-color: var(--background-color-1);
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--background-color-5);
+    cursor: pointer;
+    border-right: none;
+    padding: 5px;
+    position: relative;
+    &::after {
+      content: "";
+      width: 1px;
+      height: 22px;
+      position: absolute;
+      background: #22272d;
+      top: 2px;
+      left: 100%;
+    }
+  }
+  &__input {
+    outline: none;
+    background-color: var(--background-color-1);
+    border: 2px solid var(--background-color-5);
+    color: var(--text-color-3);
+    flex-grow: 1;
+    height: 30px;
+    border-left: none;
+    padding: 5px;
+  }
+}
