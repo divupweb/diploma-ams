@@ -6,8 +6,14 @@ const initialState: ActiveDirectoryType = {
   users: [],
   preLoading: false,
   searchingUser: "",
-  userGroups: [],
-  pcGroups: [],
+  userGroups: {
+    default: [],
+    all: [],
+  },
+  pcGroups: {
+    default: [],
+    all: [],
+  },
 };
 
 export const activeDirectorySlice = createSlice({
@@ -18,6 +24,7 @@ export const activeDirectorySlice = createSlice({
     fetchAllGroups: () => {},
     dropUser: (state, { payload }) => {},
     changeStatus: (state, { payload }) => {},
+    addUser: (state, { payload }) => {},
     setLoading: (state, { payload }) => {
       state.loading = payload;
     },

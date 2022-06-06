@@ -10,18 +10,69 @@ import { activeDirectorySliceActions } from "../../store/activeDirectory/activeD
 import StoreType from "../../types/storeType";
 import Loader from "../controls/loader/loader";
 import SwitchList from "../controls/switchList/switchList";
+import BadgeIcon from "@mui/icons-material/Badge";
+import GoogleIcon from "@mui/icons-material/Google";
+import VpnLockIcon from "@mui/icons-material/VpnLock";
+import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
+import Looks3Icon from "@mui/icons-material/Looks3";
+import servicesEnum from "../../enums/servicesEnum";
+import Button from "../controls/button/button";
+import SendIcon from "@mui/icons-material/Send";
+import { minLength } from "../../helpers/validators";
+import { notificationsSliceAction } from "../../store/notifications/notificationsSlice";
+import notificationEnum from "../../enums/notificationEnum";
+import dateNow from "../../helpers/dateNow";
+import ActiveDirectoryType from "../../types/activeDirectoryType";
+import UserAddType from "../../types/userAddType";
 
 const UserCreate: React.FC = () => {
+  useEffect(() => {
+    dispatch(activeDirectorySliceActions.fetchAllGroups());
+  }, []);
+
   const { t } = useTranslate();
-  const [user, setUser] = useState({
+
+  const userGroups = useSelector(
+    (store: StoreType) => store.activeDirectory.userGroups.default
+  );
+  const pcGroups = useSelector(
+    (store: StoreType) => store.activeDirectory.pcGroups.default
+  );
+
+  const initialState: UserAddType = {
     firstName: "",
     lastName: "",
     email: "",
     login: "",
     isActive: true,
-  });
+    password: "",
+    userGroups,
+    pcGroups,
+  };
+
+  const [user, setUser] = useState(initialState);
+
+  useEffect(() => {
+    setUser((prev) => {
+      return { ...prev, userGroups };
+    });
+  }, [userGroups]);
+
+  useEffect(() => {
+    setUser((prev) => {
+      return { ...prev, pcGroups };
+    });
+  }, [pcGroups]);
 
   const dispatch = useDispatch();
+
+  const switchListItems = [
+    { title: servicesEnum.ACTIVE_DIRECTORY, icon: BadgeIcon },
+    { title: servicesEnum.GMAIL, icon: GoogleIcon },
+    { title: servicesEnum.PRITUNL, icon: VpnLockIcon },
+    { title: servicesEnum.CHECKPOINT, icon: LocalFireDepartmentIcon },
+    { title: servicesEnum.CX, icon: Looks3Icon },
+  ];
 
   const loadingStatus: boolean = useSelector(
     (store: StoreType) => store.activeDirectory.loading
@@ -53,12 +104,25 @@ const UserCreate: React.FC = () => {
         ...currentObject,
         email,
         login,
+        password: passwordGenerator(10),
       };
     });
   };
-  useEffect(() => {
-    dispatch(activeDirectorySliceActions.fetchAllGroups());
-  }, []);
+
+  const postQuery = () => {
+    if (minLength(user.firstName, 2) || minLength(user.lastName, 2)) {
+      dispatch(
+        notificationsSliceAction.addNotification({
+          type: notificationEnum.ERROR,
+          message: "",
+          action: "notifications.validation_error",
+          date: dateNow(),
+        })
+      );
+    } else {
+      dispatch(activeDirectorySliceActions.addUser(user));
+    }
+  };
 
   return (
     <div className="user-create">
@@ -67,10 +131,10 @@ const UserCreate: React.FC = () => {
         <Loader></Loader>
       ) : (
         <div className="user-create__container">
-          <div className="user-create__profile">
-            <AccountCircleIcon className="user-create__logotype"></AccountCircleIcon>
-          </div>
-          <div className="user-create__inputs">
+          <form className="user-create__wrap">
+            <div className="user-create__profile">
+              <AccountCircleIcon className="user-create__logotype"></AccountCircleIcon>
+            </div>
             <TextInput
               id="user_create_surname"
               placeholder={t("text_input_placeholder_surname")}
@@ -87,30 +151,38 @@ const UserCreate: React.FC = () => {
             >
               <AddCardIcon></AddCardIcon>
             </TextInput>
-          </div>
-          <div className="user-create__data">
-            <h3>{t("user_create.generated_data")}</h3>
             <div>
-              {t("user_create.generated_surname")}: {user.lastName}
+              <SwitchList switchListItems={switchListItems}></SwitchList>
             </div>
             <div>
-              {t("user_create.generated_name")}: {user.firstName}
+              <Button
+                handler={postQuery}
+                title={t("button.send")}
+                icon={SendIcon}
+              ></Button>
             </div>
+          </form>
 
-            <div>
-              {t("user_create.generated_email")}: {user.email}
-            </div>
-            <div>
-              {t("user_create.generated_login")}: {user.login}
-            </div>
-            <div>
-              {t("user_create.generated_password")}:
-              {user.email && user.login && passwordGenerator(10)}
-            </div>
-          </div>
-          <div>
-            <SwitchList></SwitchList>
-          </div>
+          {/* <div className="user-create__data">
+              <h3>{t("user_create.generated_data")}</h3>
+              <div>
+                {t("user_create.generated_surname")}: {user.lastName}
+              </div>
+              <div>
+                {t("user_create.generated_name")}: {user.firstName}
+              </div>
+
+              <div>
+                {t("user_create.generated_email")}: {user.email}
+              </div>
+              <div>
+                {t("user_create.generated_login")}: {user.login}
+              </div>
+              <div>
+                {t("user_create.generated_password")}:
+                {user.email && user.login && passwordGenerator(10)}
+              </div>
+            </div> */}
         </div>
       )}
     </div>

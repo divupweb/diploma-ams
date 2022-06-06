@@ -145,11 +145,49 @@ const fetchActiveDirectoryGroupsWorker = function* () {
   }
 };
 
+const addActiveDirectoryUserWatcher = function* () {
+  yield takeEvery(
+    activeDirectorySliceActions.addUser,
+    addActiveDirectoryUserWorker
+  );
+};
+const addActiveDirectoryUserWorker = function* (data: any) {
+  yield put(activeDirectorySliceActions.setPreLoading(true));
+  try {
+    const response: FetchGroupsType = yield axios.post(
+      `api/user_add`,
+      data.payload
+    );
+    yield put(activeDirectorySliceActions.setUsers(response.data));
+    yield put(
+      notificationsSliceAction.addNotification({
+        type: notificationEnum.SUCCESS,
+        message: `${data.payload.login}`,
+        date: dateNow(),
+        action: "notifications.user_add",
+      })
+    );
+  } catch (e) {
+    const error = e as AxiosError;
+    yield put(
+      notificationsSliceAction.addNotification({
+        type: notificationEnum.ERROR,
+        message: error.message,
+        action: "notifications.user_add_error",
+        date: dateNow(),
+      })
+    );
+  } finally {
+    yield put(activeDirectorySliceActions.setPreLoading(false));
+  }
+};
+
 const activeDirectorySaga = function* () {
   yield all([spawn(fetchActiveDirectoryUsersWatcher)]);
   yield all([spawn(dropActiveDirectoryUserWatcher)]);
   yield all([spawn(changeActiveDirectoryStatusWatcher)]);
   yield all([spawn(fetchActiveDirectoryGroupsWatcher)]);
+  yield all([spawn(addActiveDirectoryUserWatcher)]);
 };
 
 export default activeDirectorySaga;

@@ -14,10 +14,13 @@
   "notifications.warning": "предупреждение",
   "notifications.user_drop": "пользователь был удален:",
   "notifications.user_status_change": "статус пользователя был изменен:",
+  "notifications.user_add": "пользователь был добавлен:",
   "notifications.user_drop_error": "не удалось удалить пользователя:",
   "notifications.user_get_error": "не удалось получить пользователей:",
+  "notifications.user_add_error": "не удалось создать пользователя:",
   "notifications.user_change_status_error": "не удалось изменить статус пользователя:",
   "notifications.groups_get_error": "не удалось получить список групп:",
+  "notifications.validation_error": "не удалось создать пользователя: нарушены правила заполнения",
   "confirmation.title": "подтвердите ваше действие",
   "confirmation.user_drop": "вы хотите удалить этого пользователя: ",
   "search.title": "поиск по логину",
@@ -30,5 +33,7 @@
   "user_create.generated_login": "логин",
   "user_create.generated_password": "пароль",
   "text_input_placeholder_name": "введите имя пользователя",
-  "text_input_placeholder_surname": "введите фамилию пользователя"
+  "text_input_placeholder_surname": "введите фамилию пользователя",
+  "switch_list.title": "отметьте нужные сервисы",
+  "button.send": "отправить"
 }

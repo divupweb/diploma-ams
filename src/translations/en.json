@@ -14,10 +14,13 @@
   "notifications.warning": "warning",
   "notifications.user_drop": "user where droped:",
   "notifications.user_status_change": "user status where changed:",
+  "notifications.user_add": "user where added:",
   "notifications.user_drop_error": "failed to drop user:",
   "notifications.user_get_error": "failed to get users:",
+  "notifications.user_add_error": "failed to create user:",
   "notifications.user_change_status_error": "failed to change user status:",
   "notifications.groups_get_error": "failed to get list of groups:",
+  "notifications.validation_error": "failed to create user: filling rules violated",
   "confirmation.title": "confirm your decision",
   "confirmation.user_drop": "you want to delete this user: ",
   "search.title": "search by login",
@@ -30,5 +33,7 @@
   "user_create.generated_login": "login",
   "user_create.generated_password": "password",
   "text_input_placeholder_name": "enter user name",
-  "text_input_placeholder_surname": "enter user surname"
+  "text_input_placeholder_surname": "enter user surname",
+  "switch_list.title": "mark the required services",
+  "button.send": "send"
 }
