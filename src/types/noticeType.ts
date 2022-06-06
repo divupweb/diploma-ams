@@ -1,5 +1,5 @@
 import { activeDirectorySliceActions } from "../store/activeDirectory/activeDirectorySlice";
-import UserType from "./userType";
+import UserType from "./activeDirectory/userType";
 
 type NoticeType = {
   action?: typeof activeDirectorySliceActions.dropUser.type;

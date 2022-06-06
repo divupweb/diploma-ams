@@ -1,4 +1,4 @@
-import UserType from "./userType";
+import UserType from "./activeDirectory/userType";
 
 type ActiveDirectoryType = {
   loading: boolean;

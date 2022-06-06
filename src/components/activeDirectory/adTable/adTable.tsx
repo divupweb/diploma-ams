@@ -1,18 +1,17 @@
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import useTranslate from "../../../hooks/useTranslate";
+import { activeDirectorySliceActions } from "../../../store/activeDirectory/activeDirectorySlice";
+import Loader from "../../controls/loader/loader";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import GroupIcon from "@mui/icons-material/Group";
 import SignalCellularConnectedNoInternet1BarIcon from "@mui/icons-material/SignalCellularConnectedNoInternet1Bar";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
-import useTranslate from "../../../hooks/useTranslate";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
-import "./adTable.scss";
-import React, { useEffect, useRef, useState } from "react";
-import UserType from "../../../types/userType";
-import { activeDirectorySliceActions } from "../../../store/activeDirectory/activeDirectorySlice";
+import UserType from "../../../types/activeDirectory/userType";
 import StoreType from "../../../types/storeType";
-import Loader from "../../controls/loader/loader";
 import { confirmationSliceActions } from "../../../store/confirmation/confirmationSlice";
 import CloseIcon from "@mui/icons-material/Close";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
@@ -21,36 +20,45 @@ import searchUser from "../../../helpers/searchUser";
 import sortUsers from "../../../helpers/sortUsers";
 import userFieldsEnum from "../../../enums/userFieldsEnum";
 
-const AdTable = () => {
+import "./adTable.scss";
+import FieldStateType from "../../../types/activeDirectory/adTable/fieldStateType";
+
+const AdTable: React.FC = () => {
   const { t } = useTranslate();
-  const users: UserType[] = useSelector(
-    (store: StoreType) => store.activeDirectory.users
-  );
+  const users: UserType[] = useSelector((store: StoreType) => store.activeDirectory.users);
 
   const initialState: UserType[] = [];
   const [adUsers, setAdUsers] = useState(initialState);
 
-  const initialFieldsSate: { [index: string]: boolean } = {
-    login: true,
-    firstName: true,
-    lastName: true,
-    email: true,
-    isActive: true,
+  const initialFieldsState: FieldStateType = {
+    login: { used: false, ascFlag: true },
+    firstName: { used: false, ascFlag: true },
+    lastName: { used: false, ascFlag: true },
+    email: { used: false, ascFlag: true },
+    isActive: { used: false, ascFlag: true },
   };
-  const [fieldsSortAsc, setFieldSortAsc] = useState(initialFieldsSate);
+
+  const [fieldsSortAsc, setFieldSortAsc] = useState(initialFieldsState);
 
   const dispatch = useDispatch();
-  const loadingStatus: boolean = useSelector(
-    (store: StoreType) => store.activeDirectory.loading
-  );
+  const loadingStatus: boolean = useSelector((store: StoreType) => store.activeDirectory.loading);
   const searchingUser: string = useSelector(
     (store: StoreType) => store.activeDirectory.searchingUser
   );
 
   useEffect(() => {
+    let key: keyof FieldStateType;
+    let userClone = users;
+
+    for (key in fieldsSortAsc) {
+      userClone = fieldsSortAsc[key]["used"]
+        ? sortUsers(userClone, key, !fieldsSortAsc[key]["ascFlag"])
+        : userClone;
+    }
+
     searchingUser.length > 0
-      ? setAdUsers(searchUser(users, searchingUser))
-      : setAdUsers(users);
+      ? setAdUsers(searchUser(userClone, searchingUser))
+      : setAdUsers(userClone);
   }, [users]);
 
   const dropUser = (user: UserType) => {
@@ -72,11 +80,21 @@ const AdTable = () => {
     );
   };
 
-  const sortHandler = (users: UserType[], field: string) => {
-    setAdUsers(sortUsers(users, field, fieldsSortAsc[field]));
-    setFieldSortAsc((prev: { [index: string]: boolean }) => {
-      prev[field] = !prev[field];
-      return { ...prev, field: !prev[field] };
+  const sortHandler = (users: UserType[], field: keyof FieldStateType) => {
+    setAdUsers(sortUsers(users, field, fieldsSortAsc[field]["ascFlag"]));
+    setFieldSortAsc((prev) => {
+      const prevClone: FieldStateType = { ...prev };
+      let key: keyof FieldStateType;
+      for (key in prevClone) {
+        if (key !== field) {
+          prevClone[key]["ascFlag"] = false;
+          prevClone[key]["used"] = false;
+        } else {
+          prevClone[key]["ascFlag"] = !prevClone[key]["ascFlag"];
+          prevClone[key]["used"] = true;
+        }
+      }
+      return { ...prevClone };
     });
   };
 
@@ -177,11 +195,7 @@ const AdTable = () => {
                   <td className="ad-table__cell ad-table__cell-groups">
                     <ul>
                       {user.groups.map((group: string) => {
-                        return (
-                          <li key={`${user.login} - ${Math.random()}`}>
-                            - {group}
-                          </li>
-                        );
+                        return <li key={`${user.login} - ${Math.random()}`}>- {group}</li>;
                       })}
                     </ul>
                   </td>

@@ -1,10 +1,8 @@
-import UserType from "../types/userType";
+import UserType from "../types/activeDirectory/userType";
 
 const searchUser = (users: UserType[], value: string) => {
   return users.filter((user) => {
-    return (
-      user.login.toLocaleLowerCase().indexOf(value.toLocaleLowerCase()) >= 0
-    );
+    return user.login.toLocaleLowerCase().indexOf(value.toLocaleLowerCase()) >= 0;
   });
 };
 

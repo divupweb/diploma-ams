@@ -1,4 +1,4 @@
-import UserType from "../types/userType";
+import UserType from "../types/activeDirectory/userType";
 
 const sortUsers = (users: UserType[], field: string, asc: boolean) => {
   const sortedUsers = [...users].sort(
@@ -6,13 +6,7 @@ const sortUsers = (users: UserType[], field: string, asc: boolean) => {
       a: { [keys: string]: string | boolean | string[] },
       b: { [keys: string]: string | boolean | string[] }
     ) => {
-      return asc
-        ? a[field] > b[field]
-          ? 1
-          : -1
-        : a[field] > b[field]
-        ? -1
-        : 1;
+      return asc ? (a[field] > b[field] ? 1 : -1) : a[field] > b[field] ? -1 : 1;
     }
   );
 
