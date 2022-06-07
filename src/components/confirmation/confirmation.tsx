@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import StoreType from "../../types/storeType";
 import React from "react";
 import { confirmationSliceActions } from "../../store/confirmation/confirmationSlice";
-import NoticeType from "../../types/noticeType";
+import NoticeType from "../../types/confirmation/noticeType";
 
 const Confirmation: React.FC = () => {
   const { t } = useTranslate();
@@ -16,8 +16,8 @@ const Confirmation: React.FC = () => {
   const dispatch = useDispatch();
 
   const confirmAction = (flag: boolean) => {
-    if (flag) {
-      dispatch<any>(notice?.action);
+    if (flag && notice?.action) {
+      dispatch(notice.action);
     }
     dispatch(confirmationSliceActions.confirm(null));
   };

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import UserCreateType from "../../types/userCreateType";
+import UserCreateServicesType from "../../types/userCreate/userCreateServicesType";
 
-const initialState: UserCreateType = {
+const initialState: UserCreateServicesType = {
   services: [],
 };
 export const userCreateSlice = createSlice({

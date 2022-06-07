@@ -5,34 +5,28 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import Switch from "@mui/material/Switch";
-
 import SwitchListItemsType from "../../../types/switchListsItemsType";
 import { useDispatch } from "react-redux";
 import { userCreateSliceActions } from "../../../store/userCreate/userCreateSlice";
-
-import "./switchList.scss";
 import useTranslate from "../../../hooks/useTranslate";
+import "./switchList.scss";
+
 type PropsType = { switchListItems: SwitchListItemsType[] };
 
 const SwitchList: React.FC<PropsType> = (props) => {
   const initialItems = props.switchListItems.map((item) => item.title);
-
   const [checked, setChecked] = React.useState([initialItems[0]]);
-
   const dispatch = useDispatch();
-
   const { t } = useTranslate();
 
   const handleToggle = (value: string) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
-
     if (currentIndex === -1) {
       newChecked.push(value);
     } else {
       newChecked.splice(currentIndex, 1);
     }
-
     setChecked(newChecked);
   };
 

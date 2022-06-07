@@ -9,8 +9,8 @@ const Navigation: React.FC = () => {
   const { t } = useTranslate();
   return (
     <nav className="navigation">
-      <ul>
-        <li>
+      <ul className="navigation__list">
+        <li className="navigation__list-item">
           <NavLink
             className={({ isActive }) =>
               "navigation__link" + (isActive ? " navigation__link_active" : "")
@@ -29,7 +29,7 @@ const Navigation: React.FC = () => {
             </span>
           </NavLink>
         </li>
-        <li>
+        <li className="navigation__list-item">
           <NavLink
             className={({ isActive }) =>
               "navigation__link" + (isActive ? " navigation__link_active" : "")

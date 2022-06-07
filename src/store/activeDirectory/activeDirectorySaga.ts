@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import { all, put, spawn, takeEvery } from "redux-saga/effects";
 import notificationEnum from "../../enums/notificationEnum";
 import dateNow from "../../helpers/dateNow";
-import GroupsType from "../../types/groupsType";
+import GroupsType from "../../types/activeDirectory/groupsType";
 
 import UserType from "../../types/activeDirectory/userType";
 import { notificationsSliceAction } from "../notifications/notificationsSlice";
@@ -13,11 +13,14 @@ type FetchUsersType = {
   data: UserType[];
 };
 type FetchGroupsType = {
-  data: GroupsType[];
+  data: GroupsType;
 };
 
 const fetchActiveDirectoryUsersWatcher = function* () {
-  yield takeEvery(activeDirectorySliceActions.fetchAllUsers, fetchActiveDirectoryUsersWorker);
+  yield takeEvery(
+    activeDirectorySliceActions.fetchAllUsers,
+    fetchActiveDirectoryUsersWorker
+  );
 };
 
 const fetchActiveDirectoryUsersWorker = function* () {
@@ -26,6 +29,7 @@ const fetchActiveDirectoryUsersWorker = function* () {
 
   try {
     const response: FetchUsersType = yield axios.get(`api/users`);
+
     yield put(activeDirectorySliceActions.setUsers(response.data));
   } catch (e) {
     const error = e as AxiosError;
@@ -43,12 +47,17 @@ const fetchActiveDirectoryUsersWorker = function* () {
 };
 
 const dropActiveDirectoryUserWatcher = function* () {
-  yield takeEvery(activeDirectorySliceActions.dropUser, dropActiveDirectoryUserWorker);
+  yield takeEvery(
+    activeDirectorySliceActions.dropUser,
+    dropActiveDirectoryUserWorker
+  );
 };
 const dropActiveDirectoryUserWorker = function* (data: any) {
   yield put(activeDirectorySliceActions.setPreLoading(true));
   try {
-    const response: FetchUsersType = yield axios.delete(`api/user_delete/${data.payload.dn}`);
+    const response: FetchUsersType = yield axios.delete(
+      `api/user_delete/${data.payload.dn}`
+    );
     yield put(activeDirectorySliceActions.setUsers(response.data));
     yield put(
       notificationsSliceAction.addNotification({
@@ -74,7 +83,10 @@ const dropActiveDirectoryUserWorker = function* (data: any) {
 };
 
 const changeActiveDirectoryStatusWatcher = function* () {
-  yield takeEvery(activeDirectorySliceActions.changeStatus, changeActiveDirectoryStatusWorker);
+  yield takeEvery(
+    activeDirectorySliceActions.changeStatus,
+    changeActiveDirectoryStatusWorker
+  );
 };
 
 const changeActiveDirectoryStatusWorker = function* (data: any) {
@@ -109,12 +121,16 @@ const changeActiveDirectoryStatusWorker = function* (data: any) {
 };
 
 const fetchActiveDirectoryGroupsWatcher = function* () {
-  yield takeEvery(activeDirectorySliceActions.fetchAllGroups, fetchActiveDirectoryGroupsWorker);
+  yield takeEvery(
+    activeDirectorySliceActions.fetchAllGroups,
+    fetchActiveDirectoryGroupsWorker
+  );
 };
 const fetchActiveDirectoryGroupsWorker = function* () {
   yield put(activeDirectorySliceActions.setLoading(true));
   try {
     const response: FetchGroupsType = yield axios.get(`api/groups`);
+
     yield put(activeDirectorySliceActions.setGroups(response.data));
   } catch (e) {
     const error = e as AxiosError;
@@ -132,12 +148,18 @@ const fetchActiveDirectoryGroupsWorker = function* () {
 };
 
 const addActiveDirectoryUserWatcher = function* () {
-  yield takeEvery(activeDirectorySliceActions.addUser, addActiveDirectoryUserWorker);
+  yield takeEvery(
+    activeDirectorySliceActions.addUser,
+    addActiveDirectoryUserWorker
+  );
 };
 const addActiveDirectoryUserWorker = function* (data: any) {
   yield put(activeDirectorySliceActions.setPreLoading(true));
   try {
-    const response: FetchGroupsType = yield axios.post(`api/user_add`, data.payload);
+    const response: FetchGroupsType = yield axios.post(
+      `api/user_add`,
+      data.payload
+    );
     yield put(activeDirectorySliceActions.setUsers(response.data));
     yield put(
       notificationsSliceAction.addNotification({

@@ -25,7 +25,9 @@ import FieldStateType from "../../../types/activeDirectory/adTable/fieldStateTyp
 
 const AdTable: React.FC = () => {
   const { t } = useTranslate();
-  const users: UserType[] = useSelector((store: StoreType) => store.activeDirectory.users);
+  const users: UserType[] = useSelector(
+    (store: StoreType) => store.activeDirectory.users
+  );
 
   const initialState: UserType[] = [];
   const [adUsers, setAdUsers] = useState(initialState);
@@ -41,7 +43,9 @@ const AdTable: React.FC = () => {
   const [fieldsSortAsc, setFieldSortAsc] = useState(initialFieldsState);
 
   const dispatch = useDispatch();
-  const loadingStatus: boolean = useSelector((store: StoreType) => store.activeDirectory.loading);
+  const loadingStatus: boolean = useSelector(
+    (store: StoreType) => store.activeDirectory.loading
+  );
   const searchingUser: string = useSelector(
     (store: StoreType) => store.activeDirectory.searchingUser
   );
@@ -60,6 +64,10 @@ const AdTable: React.FC = () => {
       ? setAdUsers(searchUser(userClone, searchingUser))
       : setAdUsers(userClone);
   }, [users]);
+
+  useEffect(() => {
+    dispatch(activeDirectorySliceActions.setSearch(""));
+  }, []);
 
   const dropUser = (user: UserType) => {
     dispatch(
@@ -195,7 +203,11 @@ const AdTable: React.FC = () => {
                   <td className="ad-table__cell ad-table__cell-groups">
                     <ul>
                       {user.groups.map((group: string) => {
-                        return <li key={`${user.login} - ${Math.random()}`}>- {group}</li>;
+                        return (
+                          <li key={`${user.login} - ${Math.random()}`}>
+                            - {group}
+                          </li>
+                        );
                       })}
                     </ul>
                   </td>

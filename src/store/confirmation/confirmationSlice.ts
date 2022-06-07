@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import ConfirmationType from "../../types/confirmationType";
+import ConfirmationType from "../../types/confirmation/confirmationType";
 
 const initialState: ConfirmationType = {
   notice: null,

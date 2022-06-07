@@ -1,11 +1,18 @@
 import "./search.scss";
 import SearchIcon from "@mui/icons-material/Search";
-import SearchType from "../../../types/searchType";
 import searchUser from "../../../helpers/searchUser";
 import { useDispatch } from "react-redux";
 import { activeDirectorySliceActions } from "../../../store/activeDirectory/activeDirectorySlice";
+import UserType from "../../../types/activeDirectory/userType";
 
-const Search = (props: SearchType) => {
+type PropsType = {
+  id: string;
+  placeholder: string;
+  users: UserType[];
+  setUsers: React.Dispatch<React.SetStateAction<UserType[]>>;
+};
+
+const Search: React.FC<PropsType> = (props) => {
   const searchChangeHandler = (value: string) => {
     props.setUsers(searchUser(props.users, value));
     dispatch(activeDirectorySliceActions.setSearch(value));
@@ -24,6 +31,7 @@ const Search = (props: SearchType) => {
         onChange={(event) => {
           searchChangeHandler(event.target.value);
         }}
+        autoComplete="off"
       ></input>
     </div>
   );

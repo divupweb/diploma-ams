@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "./userCreate.scss";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import TextInput from "../controls/itextInput/textInput";
+import TextInput from "../controls/textInput/textInput";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import useTranslate from "../../hooks/useTranslate";
 import passwordGenerator from "../../helpers/passwordGenerator";
@@ -22,8 +21,10 @@ import { minLength } from "../../helpers/validators";
 import { notificationsSliceAction } from "../../store/notifications/notificationsSlice";
 import notificationEnum from "../../enums/notificationEnum";
 import dateNow from "../../helpers/dateNow";
-import ActiveDirectoryType from "../../types/activeDirectoryType";
-import UserAddType from "../../types/userAddType";
+import UserAddType from "../../types/userCreate/userAddType";
+
+import "./userCreate.scss";
+import SwitchListItemsType from "../../types/switchListsItemsType";
 
 const UserCreate: React.FC = () => {
   useEffect(() => {
@@ -66,7 +67,7 @@ const UserCreate: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const switchListItems = [
+  const switchListItems: SwitchListItemsType[] = [
     { title: servicesEnum.ACTIVE_DIRECTORY, icon: BadgeIcon },
     { title: servicesEnum.GMAIL, icon: GoogleIcon },
     { title: servicesEnum.PRITUNL, icon: VpnLockIcon },
@@ -109,7 +110,9 @@ const UserCreate: React.FC = () => {
     });
   };
 
-  const postQuery = () => {
+  const postQuery = (event: React.FocusEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     if (minLength(user.firstName, 2) || minLength(user.lastName, 2)) {
       dispatch(
         notificationsSliceAction.addNotification({
@@ -121,6 +124,8 @@ const UserCreate: React.FC = () => {
       );
     } else {
       dispatch(activeDirectorySliceActions.addUser(user));
+      setUser(initialState);
+      event.target.reset();
     }
   };
 
@@ -131,7 +136,7 @@ const UserCreate: React.FC = () => {
         <Loader></Loader>
       ) : (
         <div className="user-create__container">
-          <form className="user-create__wrap">
+          <form className="user-create__wrap" onSubmit={postQuery}>
             <div className="user-create__profile">
               <AccountCircleIcon className="user-create__logotype"></AccountCircleIcon>
             </div>
@@ -155,34 +160,9 @@ const UserCreate: React.FC = () => {
               <SwitchList switchListItems={switchListItems}></SwitchList>
             </div>
             <div>
-              <Button
-                handler={postQuery}
-                title={t("button.send")}
-                icon={SendIcon}
-              ></Button>
+              <Button title={t("button.send")} icon={SendIcon}></Button>
             </div>
           </form>
-
-          {/* <div className="user-create__data">
-              <h3>{t("user_create.generated_data")}</h3>
-              <div>
-                {t("user_create.generated_surname")}: {user.lastName}
-              </div>
-              <div>
-                {t("user_create.generated_name")}: {user.firstName}
-              </div>
-
-              <div>
-                {t("user_create.generated_email")}: {user.email}
-              </div>
-              <div>
-                {t("user_create.generated_login")}: {user.login}
-              </div>
-              <div>
-                {t("user_create.generated_password")}:
-                {user.email && user.login && passwordGenerator(10)}
-              </div>
-            </div> */}
         </div>
       )}
     </div>

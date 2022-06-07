@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import NotificationsType from "../../types/notificationsType";
-import NotificationType from "../../types/notificationType";
+import NotificationsType from "../../types/notifications/notificationsType";
+import NotificationType from "../../types/notifications/notificationType";
 
 const initialState: NotificationsType = {
   notifications: [],

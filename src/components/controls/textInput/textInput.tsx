@@ -1,8 +1,15 @@
 import "./textInput.scss";
-
 import React from "react";
-import TextInputType from "../../../types/textInputType";
-const TextInput: React.FC<TextInputType> = ({
+
+type PropsType = {
+  id: string;
+  children: JSX.Element;
+  placeholder: string;
+  action: (value: string, field: string) => void;
+  field: string;
+};
+
+const TextInput: React.FC<PropsType> = ({
   id,
   children,
   placeholder,
@@ -21,6 +28,7 @@ const TextInput: React.FC<TextInputType> = ({
         onChange={(event) => {
           action(event.target.value, field);
         }}
+        autoComplete="off"
       ></input>
     </div>
   );

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import ActiveDirectoryType from "../../types/activeDirectoryType";
+import ActiveDirectoryType from "../../types/activeDirectory/activeDirectoryType";
 
 const initialState: ActiveDirectoryType = {
   loading: true,

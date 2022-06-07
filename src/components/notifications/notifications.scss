@@ -62,14 +62,6 @@
 .notifications__item_warning .notifications__item-image {
   color: var(--text-color-3);
 }
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
 
 @media screen and (max-width: 768px) {
   .notifications {
