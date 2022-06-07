@@ -19,9 +19,11 @@ import Search from "../../controls/search/search";
 import searchUser from "../../../helpers/searchUser";
 import sortUsers from "../../../helpers/sortUsers";
 import userFieldsEnum from "../../../enums/userFieldsEnum";
+import Pagination from "@mui/material/Pagination";
 
 import "./adTable.scss";
 import FieldStateType from "../../../types/activeDirectory/adTable/fieldStateType";
+import usePagination from "../../../hooks/usePagination";
 
 const AdTable: React.FC = () => {
   const { t } = useTranslate();
@@ -104,6 +106,17 @@ const AdTable: React.FC = () => {
       }
       return { ...prevClone };
     });
+  };
+
+  let [page, setPage] = useState(1);
+  const PER_PAGE = 20;
+
+  const count = Math.ceil(adUsers.length / PER_PAGE);
+  const _adUsers = usePagination(adUsers, PER_PAGE);
+
+  const handleChange = (event: React.ChangeEvent<unknown>, page: number) => {
+    setPage(page);
+    _adUsers.jump(page);
   };
 
   return (
@@ -193,7 +206,7 @@ const AdTable: React.FC = () => {
           </tr>
 
           {!loadingStatus &&
-            adUsers.map((user: UserType) => {
+            _adUsers.currentData().map((user: UserType) => {
               return (
                 <tr key={user.login} className="ad-table__row">
                   <td className="ad-table__cell">{user.login}</td>
@@ -243,6 +256,15 @@ const AdTable: React.FC = () => {
 
         <tfoot></tfoot>
       </table>
+      <Pagination
+        count={count}
+        size="large"
+        page={page}
+        variant="outlined"
+        shape="rounded"
+        onChange={handleChange}
+        className="ad-table__pagination"
+      />
       {loadingStatus && <Loader></Loader>}
     </React.Fragment>
   );

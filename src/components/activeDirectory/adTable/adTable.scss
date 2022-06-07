@@ -6,7 +6,21 @@
   table-layout: fixed;
   margin-top: 15px;
   box-shadow: 0 5px 30px 0 rgba(0, 0, 0, 0.2);
-
+  &__pagination {
+    margin: 20px 0;
+    .Mui-selected {
+      background-color: var(--background-color-2) !important;
+    }
+    button {
+      background-color: var(--background-color-1) !important;
+      color: var(--text-color-1);
+      transition: all 0.3s ease;
+      font-size: 1rem;
+    }
+    button:hover {
+      background-color: var(--background-color-2) !important;
+    }
+  }
   &__row {
     background-color: var(--background-color-1);
     color: var(--text-color-1);

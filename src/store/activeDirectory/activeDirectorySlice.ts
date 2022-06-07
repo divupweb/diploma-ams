@@ -25,6 +25,7 @@ export const activeDirectorySlice = createSlice({
     dropUser: (state, { payload }) => {},
     changeStatus: (state, { payload }) => {},
     addUser: (state, { payload }) => {},
+
     setLoading: (state, { payload }) => {
       state.loading = payload;
     },
