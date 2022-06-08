@@ -46,7 +46,7 @@ const SwitchList: React.FC<PropsType> = (props) => {
             key={item.title}
             className={
               "switch-list__item" +
-              (index != 0
+              (index !== 0
                 ? " switch-list__item_disabled"
                 : " switch-list__item_disabled")
             }

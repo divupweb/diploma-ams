@@ -52,6 +52,15 @@ const AdTable: React.FC = () => {
     (store: StoreType) => store.activeDirectory.searchingUser
   );
 
+  const searchHandler = (users: UserType[]) => {
+    setAdUsers(users);
+    let key: keyof FieldStateType;
+    let userClone = users;
+    for (key in fieldsSortAsc) {
+      fieldsSortAsc[key]["used"] = false;
+    }
+  };
+
   useEffect(() => {
     let key: keyof FieldStateType;
     let userClone = users;
@@ -109,24 +118,35 @@ const AdTable: React.FC = () => {
   };
 
   let [page, setPage] = useState(1);
-  const PER_PAGE = 20;
+  const itemsPerPage = 20;
 
-  const count = Math.ceil(adUsers.length / PER_PAGE);
-  const _adUsers = usePagination(adUsers, PER_PAGE);
+  const pageCount = Math.ceil(adUsers.length / itemsPerPage);
+  const _adUsers = usePagination(adUsers, itemsPerPage);
 
-  const handleChange = (event: React.ChangeEvent<unknown>, page: number) => {
+  const pageHandleChange = (_: React.ChangeEvent<unknown>, page: number) => {
     setPage(page);
     _adUsers.jump(page);
   };
 
   return (
     <React.Fragment>
-      <Search
-        id="ad_table_search"
-        placeholder={t("search.title")}
-        users={users}
-        setUsers={setAdUsers}
-      ></Search>
+      <div className="ad-table__head">
+        <Pagination
+          count={pageCount}
+          size="large"
+          page={page}
+          variant="outlined"
+          shape="rounded"
+          onChange={pageHandleChange}
+          className="ad-table__pagination"
+        />
+        <Search
+          id="ad_table_search"
+          placeholder={t("search.title")}
+          users={users}
+          setUsers={searchHandler}
+        ></Search>
+      </div>
       <table className="ad-table">
         <thead></thead>
         <tbody>
@@ -206,7 +226,7 @@ const AdTable: React.FC = () => {
           </tr>
 
           {!loadingStatus &&
-            _adUsers.currentData().map((user: UserType) => {
+            _adUsers.getCurrentData().map((user: UserType) => {
               return (
                 <tr key={user.login} className="ad-table__row">
                   <td className="ad-table__cell">{user.login}</td>
@@ -256,15 +276,7 @@ const AdTable: React.FC = () => {
 
         <tfoot></tfoot>
       </table>
-      <Pagination
-        count={count}
-        size="large"
-        page={page}
-        variant="outlined"
-        shape="rounded"
-        onChange={handleChange}
-        className="ad-table__pagination"
-      />
+
       {loadingStatus && <Loader></Loader>}
     </React.Fragment>
   );

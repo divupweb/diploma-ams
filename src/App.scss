@@ -7,6 +7,7 @@
   justify-content: space-between;
   position: relative;
   @include no-select(none);
+  overflow: hidden;
   &__main {
     display: flex;
     flex-grow: 1;
