@@ -34,7 +34,7 @@
     border: none;
     padding: 0px 50px;
     margin: 0 25px;
-    color: var(--background-color-5);
+    color: var(--background-color-1);
     cursor: pointer;
     font-size: 2rem;
     &-accept {
@@ -55,13 +55,5 @@
     &__container {
       min-width: auto;
     }
-  }
-}
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
   }
 }

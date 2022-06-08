@@ -1,0 +1,10 @@
+{
+  "userGroups": {
+    "default": ["lockscreen", "users"],
+    "all": ["lockscreen", "share", "dfs_roots", "users"]
+  },
+  "pcGroups": {
+    "default": ["kepass", "rdp"],
+    "all": ["keepass", "rdp", "soft"]
+  }
+}

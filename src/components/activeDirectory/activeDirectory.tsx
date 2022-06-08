@@ -12,9 +12,7 @@ const ActiveDirectory: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    return () => {
-      dispatch(activeDirectorySliceActions.fetchAllUsers());
-    };
+    dispatch(activeDirectorySliceActions.fetchAllUsers());
   }, []);
 
   return (

@@ -11,6 +11,7 @@ import Navigation from "./components/navigation/navigation";
 import Notifications from "./components/notifications/notifications";
 import PreLoader from "./components/controls/preLoader/preLoader";
 import Confirmation from "./components/confirmation/confirmation";
+import UserCreate from "./components/userCreate/userCreate";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
                   path="active_directory"
                   element={<ActiveDirectory></ActiveDirectory>}
                 ></Route>
+                <Route path="user_creation" element={<UserCreate />}></Route>
               </Routes>
             </section>
           </main>

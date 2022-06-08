@@ -1,6 +1,6 @@
-import ActiveDirectoryType from "./activeDirectoryType";
-import ConfirmationType from "./confirmationType";
-import NotificationsType from "./notificationsType";
+import ActiveDirectoryType from "./activeDirectory/activeDirectoryType";
+import ConfirmationType from "./confirmation/confirmationType";
+import NotificationsType from "./notifications/notificationsType";
 
 type StoreType = {
   activeDirectory: ActiveDirectoryType;

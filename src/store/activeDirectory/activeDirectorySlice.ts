@@ -1,10 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-import ActiveDirectoryType from "../../types/activeDirectoryType";
+import ActiveDirectoryType from "../../types/activeDirectory/activeDirectoryType";
 
 const initialState: ActiveDirectoryType = {
   loading: true,
   users: [],
   preLoading: false,
+  searchingUser: "",
+  userGroups: {
+    default: [],
+    all: [],
+  },
+  pcGroups: {
+    default: [],
+    all: [],
+  },
 };
 
 export const activeDirectorySlice = createSlice({
@@ -12,7 +21,11 @@ export const activeDirectorySlice = createSlice({
   initialState,
   reducers: {
     fetchAllUsers: () => {},
+    fetchAllGroups: () => {},
     dropUser: (state, { payload }) => {},
+    changeStatus: (state, { payload }) => {},
+    addUser: (state, { payload }) => {},
+
     setLoading: (state, { payload }) => {
       state.loading = payload;
     },
@@ -21,6 +34,13 @@ export const activeDirectorySlice = createSlice({
     },
     setPreLoading: (state, { payload }) => {
       state.preLoading = payload;
+    },
+    setSearch: (state, { payload }) => {
+      state.searchingUser = payload;
+    },
+    setGroups: (state, { payload }) => {
+      state.userGroups = payload.userGroups;
+      state.pcGroups = payload.pcGroups;
     },
   },
 });

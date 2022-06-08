@@ -4,7 +4,7 @@ import NewReleasesIcon from "@mui/icons-material/NewReleases";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
 import StoreType from "../../types/storeType";
-import NotificationType from "../../types/notificationType";
+import NotificationType from "../../types/notifications/notificationType";
 import notificationEnum from "../../enums/notificationEnum";
 import { notificationsSliceAction } from "../../store/notifications/notificationsSlice";
 import useTranslate from "../../hooks/useTranslate";
@@ -57,7 +57,7 @@ const Notifications: React.FC = () => {
                   {t(`notifications.${notification.type}`)}
                 </div>
                 <div className="notifications__item-text">
-                  {t(notification.action)} {notification.message}
+                  {t(notification.action)}: {notification.message}
                 </div>
               </div>
             </div>

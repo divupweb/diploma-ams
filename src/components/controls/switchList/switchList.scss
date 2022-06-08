@@ -1,0 +1,23 @@
+.switch-list {
+  background-color: var(--background-color-1) !important;
+  color: var(--text-color-1);
+  &__item {
+    &_disabled {
+      color: var(--text-color-2);
+      pointer-events: none;
+    }
+    svg {
+      fill: var(--text-color-1) !important;
+    }
+  }
+}
+.css-uob957-MuiListSubheader-root {
+  background-color: var(--background-color-1) !important;
+  color: var(--text-color-1) !important;
+}
+.Mui-checked + .MuiSwitch-track {
+  background-color: var(--background-color-2) !important;
+}
+.css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked {
+  color: var(--text-color-3) !important;
+}
