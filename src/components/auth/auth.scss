@@ -1,0 +1,32 @@
+.auth {
+  width: 500px;
+  padding: 50px;
+  background: var(--background-color-1);
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-self: center;
+  max-width: 100%;
+  font-size: 1rem;
+  > * {
+    margin: 10px 0;
+  }
+  &__title {
+    color: var(--text-color-1);
+  }
+  &__notifications {
+    color: var(--text-color-2);
+  }
+  &__notification {
+    &_error {
+      color: var(--text-color-4);
+      animation: fade-in-cicle 0.75s ease-in-out;
+      animation-fill-mode: both;
+    }
+    &_success {
+      color: var(--text-color-6);
+      animation: fade-in-cicle 0.75s ease-in-out;
+      animation-fill-mode: both;
+    }
+  }
+}

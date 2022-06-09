@@ -24,6 +24,7 @@ import Pagination from "@mui/material/Pagination";
 import "./adTable.scss";
 import FieldStateType from "../../../types/activeDirectory/adTable/fieldStateType";
 import usePagination from "../../../hooks/usePagination";
+import { authSliceActions } from "../../../store/auth/authSlice";
 
 const AdTable: React.FC = () => {
   const { t } = useTranslate();
@@ -80,7 +81,7 @@ const AdTable: React.FC = () => {
     dispatch(activeDirectorySliceActions.setSearch(""));
   }, []);
 
-  const dropUser = (user: UserType) => {
+  const dropUser = async (user: UserType) => {
     dispatch(
       confirmationSliceActions.confirm({
         decision: t("confirmation.user_drop"),

@@ -1,7 +1,6 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Provider } from "react-redux";
-import store from "./store/store";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import "./App.scss";
 import ActiveDirectory from "./components/activeDirectory/activeDirectory";
 import BackgroundVideo from "./components/controls/backgroundVideo/backgroundVideo";
@@ -12,35 +11,57 @@ import Notifications from "./components/notifications/notifications";
 import PreLoader from "./components/controls/preLoader/preLoader";
 import Confirmation from "./components/confirmation/confirmation";
 import UserCreate from "./components/userCreate/userCreate";
+import Auth from "./components/auth/auth";
+import StoreType from "./types/storeType";
+import { useEffect } from "react";
+import { authSliceActions } from "./store/auth/authSlice";
 
-function App() {
+const App: React.FC = () => {
+  const isLogged: boolean = useSelector(
+    (store: StoreType) => store.auth.isLogged
+  );
+  const dispath = useDispatch();
+
+  useEffect(() => {
+    const access = localStorage.getItem("access");
+
+    dispath(authSliceActions.checkToken({ token: access }));
+  });
+
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <div className="app">
-          <Header></Header>
-          <main className="app__main">
-            <Navigation></Navigation>
-            <section className="app__container">
-              <Routes>
-                <Route index element={null}></Route>
+    <BrowserRouter>
+      <div className="app">
+        <Header></Header>
+
+        <main className="app__main">
+          {isLogged && <Navigation></Navigation>}
+          <section className="app__container">
+            <Routes>
+              {isLogged === null && <Route index element={null}></Route>}
+              {isLogged && <Route index element={null}></Route>}
+              {!isLogged && <Route index element={<Auth></Auth>}></Route>}
+
+              {isLogged && (
                 <Route
                   path="active_directory"
                   element={<ActiveDirectory></ActiveDirectory>}
                 ></Route>
+              )}
+              {isLogged && (
                 <Route path="user_creation" element={<UserCreate />}></Route>
-              </Routes>
-            </section>
-          </main>
-          <BackgroundVideo />
-          <Notifications></Notifications>
-          <PreLoader></PreLoader>
-          <Confirmation></Confirmation>
-          <Footer></Footer>
-        </div>
-      </BrowserRouter>
-    </Provider>
+              )}
+              <Route path="*" element={<Navigate to={"/"}></Navigate>}></Route>
+            </Routes>
+          </section>
+        </main>
+        <BackgroundVideo />
+        <Notifications></Notifications>
+        <PreLoader></PreLoader>
+        <Confirmation></Confirmation>
+        <Footer></Footer>
+      </div>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

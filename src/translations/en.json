@@ -35,5 +35,14 @@
   "text_input_placeholder_name": "enter user name",
   "text_input_placeholder_surname": "enter user surname",
   "switch_list.title": "mark the required services",
-  "button.send": "send"
+  "button.send": "send",
+  "auth.title": "authorization form",
+  "auth.login": "your login is",
+  "auth.password": "your password is",
+  "auth.sign": "sign in",
+  "auth.notifications": "notifications",
+  "auth.validation": "violated rules",
+  "auth.succes": "acces granted",
+  "auth.error": "wrong data",
+  "auth.conntect-error": "auth error"
 }
