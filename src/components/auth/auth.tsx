@@ -10,15 +10,11 @@ import { minLength } from "../../helpers/validators";
 import authEnum from "../../enums/authEnum";
 import { useState } from "react";
 import { authSliceActions } from "../../store/auth/authSlice";
-import StoreType from "../../types/storeType";
 
 const Auth: React.FC = () => {
   const { t } = useTranslate();
   const dispath = useDispatch();
   const [notification, setNotification] = useState(authEnum.DEFAULT);
-  const isLogged: boolean = useSelector(
-    (store: StoreType) => store.auth.isLogged
-  );
 
   const submitHandler = (event: React.FocusEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,7 +27,7 @@ const Auth: React.FC = () => {
     } else {
       dispath(
         authSliceActions.authQuery({
-          email: authLogin,
+          login: authLogin,
           password: authPassword,
         })
       );
@@ -69,5 +65,3 @@ const Auth: React.FC = () => {
   );
 };
 export default Auth;
-//fe19@front.end
-//FE19-onl/Front End

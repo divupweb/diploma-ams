@@ -1,4 +1,5 @@
 import axios, { AxiosError } from "axios";
+import { response } from "msw";
 
 import { all, put, spawn, takeEvery } from "redux-saga/effects";
 import notificationEnum from "../../enums/notificationEnum";
@@ -6,6 +7,7 @@ import dateNow from "../../helpers/dateNow";
 import GroupsType from "../../types/activeDirectory/groupsType";
 
 import UserType from "../../types/activeDirectory/userType";
+import { authSliceActions } from "../auth/authSlice";
 
 import { notificationsSliceAction } from "../notifications/notificationsSlice";
 import { activeDirectorySliceActions } from "./activeDirectorySlice";
@@ -16,6 +18,37 @@ type FetchUsersType = {
 type FetchGroupsType = {
   data: GroupsType;
 };
+
+axios.interceptors.request.use(
+  function (config: any) {
+    config.headers.Authorization = `Bearer ${localStorage.getItem("access")}`;
+    return config;
+  },
+  function (error) {
+    // Do something with request error
+    //return Promise.reject(error);
+  }
+);
+
+axios.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  async function (error) {
+    if (error.response.status == 401) {
+      const refreshToken = localStorage.getItem("refresh");
+
+      if (refreshToken) {
+        const refresh: any = await axios.post(`/api/auth/refresh`, {
+          refresh: refreshToken,
+        });
+        localStorage.setItem("access", refresh.data.access);
+        return axios(error.config);
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 const fetchActiveDirectoryUsersWatcher = function* () {
   yield takeEvery(
@@ -34,14 +67,17 @@ const fetchActiveDirectoryUsersWorker = function* () {
     yield put(activeDirectorySliceActions.setUsers(response.data));
   } catch (e) {
     const error = e as AxiosError;
-    yield put(
-      notificationsSliceAction.addNotification({
-        type: notificationEnum.ERROR,
-        message: error.message,
-        date: dateNow(),
-        action: "notifications.user_get_error",
-      })
-    );
+    if (error.response?.status === 401)
+      yield put(authSliceActions.setLogged(false));
+    else
+      yield put(
+        notificationsSliceAction.addNotification({
+          type: notificationEnum.ERROR,
+          message: error.message,
+          date: dateNow(),
+          action: "notifications.user_get_error",
+        })
+      );
   } finally {
     yield put(activeDirectorySliceActions.setLoading(false));
   }
@@ -70,14 +106,18 @@ const dropActiveDirectoryUserWorker = function* (data: any) {
     );
   } catch (e) {
     const error = e as AxiosError;
-    yield put(
-      notificationsSliceAction.addNotification({
-        type: notificationEnum.ERROR,
-        message: error.message,
-        action: "notifications.user_drop_error",
-        date: dateNow(),
-      })
-    );
+    if (error.response?.status === 401)
+      yield put(authSliceActions.setLogged(false));
+    else {
+      yield put(
+        notificationsSliceAction.addNotification({
+          type: notificationEnum.ERROR,
+          message: error.message,
+          action: "notifications.user_drop_error",
+          date: dateNow(),
+        })
+      );
+    }
   } finally {
     yield put(activeDirectorySliceActions.setPreLoading(false));
   }
@@ -108,6 +148,8 @@ const changeActiveDirectoryStatusWorker = function* (data: any) {
     );
   } catch (e) {
     const error = e as AxiosError;
+    if (error.response?.status === 401)
+      yield put(authSliceActions.setLogged(false));
     yield put(
       notificationsSliceAction.addNotification({
         type: notificationEnum.ERROR,
@@ -135,6 +177,8 @@ const fetchActiveDirectoryGroupsWorker = function* () {
     yield put(activeDirectorySliceActions.setGroups(response.data));
   } catch (e) {
     const error = e as AxiosError;
+    if (error.response?.status === 401)
+      yield put(authSliceActions.setLogged(false));
     yield put(
       notificationsSliceAction.addNotification({
         type: notificationEnum.ERROR,
@@ -172,6 +216,8 @@ const addActiveDirectoryUserWorker = function* (data: any) {
     );
   } catch (e) {
     const error = e as AxiosError;
+    if (error.response?.status === 401)
+      yield put(authSliceActions.setLogged(false));
     yield put(
       notificationsSliceAction.addNotification({
         type: notificationEnum.ERROR,

@@ -24,9 +24,10 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const access = localStorage.getItem("access");
-
-    dispath(authSliceActions.checkToken({ token: access }));
-  });
+    access
+      ? dispath(authSliceActions.checkToken({ token: access }))
+      : dispath(authSliceActions.setLogged(false));
+  }, []);
 
   return (
     <BrowserRouter>
@@ -50,7 +51,12 @@ const App: React.FC = () => {
               {isLogged && (
                 <Route path="user_creation" element={<UserCreate />}></Route>
               )}
-              <Route path="*" element={<Navigate to={"/"}></Navigate>}></Route>
+              {!isLogged && isLogged !== null && (
+                <Route
+                  path="*"
+                  element={<Navigate to={"/"}></Navigate>}
+                ></Route>
+              )}
             </Routes>
           </section>
         </main>

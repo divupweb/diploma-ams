@@ -4,6 +4,10 @@ import pakageJson from "../../../package.json";
 import SecurityIcon from "@mui/icons-material/Security";
 import useTranslate from "../../hooks/useTranslate";
 import { Link } from "react-router-dom";
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
+import { useDispatch, useSelector } from "react-redux";
+import StoreType from "../../types/storeType";
+import { authSliceActions } from "../../store/auth/authSlice";
 
 const enum languagesEnum {
   EN = "en",
@@ -12,6 +16,13 @@ const enum languagesEnum {
 
 const Header: React.FC = () => {
   const { languageState, setLanguage } = useTranslate();
+  const isLogged = useSelector((store: StoreType) => store.auth.isLogged);
+  const dispath = useDispatch();
+  const logoutHandler = () => {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    dispath(authSliceActions.setLogged(false));
+  };
 
   return (
     <header className="header">
@@ -46,6 +57,11 @@ const Header: React.FC = () => {
           >
             ru
           </button>
+          {isLogged && (
+            <div className="header__leave" onClick={logoutHandler}>
+              <MeetingRoomIcon></MeetingRoomIcon>
+            </div>
+          )}
         </div>
       </div>
     </header>
