@@ -5,6 +5,7 @@ import saga from "./sagas";
 import { notificationsSliceReducer } from "./notifications/notificationsSlice";
 import { confirmationSliceReducer } from "./confirmation/confirmationSlice";
 import { userCreateSliceReducer } from "./userCreate/userCreateSlice";
+import { authSliceReducer } from "./auth/authSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
@@ -13,6 +14,7 @@ const store = configureStore({
     notifications: notificationsSliceReducer,
     confirmation: confirmationSliceReducer,
     userCreate: userCreateSliceReducer,
+    auth: authSliceReducer,
   },
   middleware: [sagaMiddleware],
 });

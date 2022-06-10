@@ -58,6 +58,11 @@ const worker = setupWorker(
     users.push(newUser);
     users.map(() => {});
     return res(ctx.delay(2000), ctx.json(users));
+  }),
+
+  rest.post("/api/auth", (req, res, ctx) => {
+    const response = req.body.login == 123 && req.body.password == 123;
+    return res(ctx.delay(1000), ctx.json(response));
   })
 );
 

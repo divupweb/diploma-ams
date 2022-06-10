@@ -5,8 +5,9 @@ type PropsType = {
   id: string;
   children: JSX.Element;
   placeholder: string;
-  action: (value: string, field: string) => void;
-  field: string;
+  action?: (value: string, field: string) => void;
+  field?: string;
+  type?: string;
 };
 
 const TextInput: React.FC<PropsType> = ({
@@ -15,6 +16,7 @@ const TextInput: React.FC<PropsType> = ({
   placeholder,
   action,
   field,
+  type,
 }) => {
   return (
     <div className="text-input">
@@ -26,9 +28,10 @@ const TextInput: React.FC<PropsType> = ({
         className="text-input__input"
         placeholder={placeholder}
         onChange={(event) => {
-          action(event.target.value, field);
+          action && field && action(event.target.value, field);
         }}
-        autoComplete="off"
+        autoComplete="new-password"
+        type={type ? type : "text"}
       ></input>
     </div>
   );

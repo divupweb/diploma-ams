@@ -86,16 +86,16 @@ const UserCreate: React.FC = () => {
         [field]: value.charAt(0).toUpperCase() + value.slice(1),
       };
       const email =
-        currentObject.lastName.length != 0 &&
-        currentObject.firstName.length != 0
+        currentObject.lastName.length !== 0 &&
+        currentObject.firstName.length !== 0
           ? currentObject.lastName.toLowerCase() +
             "." +
             currentObject.firstName.toLowerCase() +
             "@gmail.com"
           : "";
       const login =
-        currentObject.lastName.length != 0 &&
-        currentObject.firstName.length != 0
+        currentObject.lastName.length !== 0 &&
+        currentObject.firstName.length !== 0
           ? currentObject.lastName.toLowerCase() +
             "." +
             currentObject.firstName.toLowerCase().slice(0, 1) +

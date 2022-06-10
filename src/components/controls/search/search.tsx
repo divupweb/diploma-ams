@@ -4,18 +4,19 @@ import searchUser from "../../../helpers/searchUser";
 import { useDispatch } from "react-redux";
 import { activeDirectorySliceActions } from "../../../store/activeDirectory/activeDirectorySlice";
 import UserType from "../../../types/activeDirectory/userType";
+import FieldStateType from "../../../types/activeDirectory/adTable/fieldStateType";
 
 type PropsType = {
   id: string;
   placeholder: string;
   users: UserType[];
-  setUsers: React.Dispatch<React.SetStateAction<UserType[]>>;
+  setUsers: (f: any) => void;
 };
 
 const Search: React.FC<PropsType> = (props) => {
   const searchChangeHandler = (value: string) => {
-    props.setUsers(searchUser(props.users, value));
     dispatch(activeDirectorySliceActions.setSearch(value));
+    props.setUsers(searchUser(props.users, value));
   };
   const dispatch = useDispatch();
   return (
