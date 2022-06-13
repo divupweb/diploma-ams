@@ -10,7 +10,7 @@ type TranslationsType = {
   [prop: string]: TranslateType;
 };
 
-const language: string = localStorage.getItem("language") || "en";
+let language: string = localStorage.getItem("language") || "en";
 const translations: TranslationsType = {
   en,
   ru,
@@ -28,6 +28,7 @@ const useTranslate = () => {
   const setLanguage = (_language: string) => {
     localStorage.setItem("language", _language);
     setLanguageState(_language);
+    language = _language;
     callbacks.forEach((callback) => callback(_language));
   };
 

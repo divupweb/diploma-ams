@@ -10,6 +10,10 @@ export const notificationsSlice = createSlice({
   name: "notifications",
   initialState,
   reducers: {
+    clear: (state) => {
+      state.notifications = [];
+    },
+
     addNotification: (state, { payload }) => {
       let notificationsArray: NotificationType[] = state.notifications;
       notificationsArray =

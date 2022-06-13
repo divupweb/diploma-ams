@@ -13,7 +13,7 @@ const worker = setupWorker(
   rest.get("/api/users", (req, res, ctx) => {
     const token = req.headers.headers.authorization.split(" ")[1];
 
-    if (checkAccessToken(token) || token == "null") {
+    if (checkAccessToken(token) || token === "null") {
       return res(ctx.status(401));
     }
 
@@ -24,7 +24,7 @@ const worker = setupWorker(
   rest.get("/api/groups", (req, res, ctx) => {
     const token = req.headers.headers.authorization.split(" ")[1];
 
-    if (checkAccessToken(token) || token == "null") {
+    if (checkAccessToken(token) || token === "null") {
       return res(ctx.status(401));
     }
     groups.pcGroups.all.map(() => {});
@@ -38,7 +38,7 @@ const worker = setupWorker(
   rest.put("/api/user_change_status/:dn", (req, res, ctx) => {
     const token = req.headers.headers.authorization.split(" ")[1];
 
-    if (checkAccessToken(token) || token == "null") {
+    if (checkAccessToken(token) || token === "null") {
       return res(ctx.status(401));
     }
     const userDnToChange = req.params.dn;
@@ -58,7 +58,7 @@ const worker = setupWorker(
   rest.delete("/api/user_delete/:dn", (req, res, ctx) => {
     const token = req.headers.headers.authorization.split(" ")[1];
 
-    if (checkAccessToken(token) || token == "null") {
+    if (checkAccessToken(token) || token === "null") {
       return res(ctx.status(401));
     }
 
@@ -77,7 +77,7 @@ const worker = setupWorker(
   rest.post("/api/user_add", (req, res, ctx) => {
     const token = req.headers.headers.authorization.split(" ")[1];
 
-    if (checkAccessToken(token) || token == "null") {
+    if (checkAccessToken(token) || token === "null") {
       return res(ctx.status(401));
     }
 
@@ -96,7 +96,7 @@ const worker = setupWorker(
   }),
 
   rest.post("/api/auth/create", (req, res, ctx) => {
-    const check = req.body.login == 123 && req.body.password == 123;
+    const check = req.body.login === "123" && req.body.password === "123";
 
     if (check) {
       return res(
@@ -104,7 +104,7 @@ const worker = setupWorker(
         ctx.json({ access: Date.now(), refresh: Date.now() })
       );
     }
-    return res(ctx.status(403));
+    return res(ctx.delay(2000), ctx.status(403));
   }),
   rest.post("/api/auth/verify", (req, res, ctx) => {
     return checkAccessToken(req.body.token)

@@ -4,11 +4,11 @@ import UserType from "../types/activeDirectory/userType";
 const usePagination = (data: UserType[], itemsPerPage: number) => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  function getCurrentData() {
+  const getCurrentData = () => {
     const begin = (currentPage - 1) * itemsPerPage;
     const end = begin + itemsPerPage;
     return data.slice(begin, end);
-  }
+  };
 
   function jump(page: number) {
     setCurrentPage(page);

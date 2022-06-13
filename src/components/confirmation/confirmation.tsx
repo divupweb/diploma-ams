@@ -1,12 +1,15 @@
-import "./confirmation.scss";
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
+import React from "react";
 import useTranslate from "../../hooks/useTranslate";
 import { useDispatch, useSelector } from "react-redux";
 import StoreType from "../../types/storeType";
-import React from "react";
+
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
+
 import { confirmationSliceActions } from "../../store/confirmation/confirmationSlice";
 import NoticeType from "../../types/confirmation/noticeType";
+
+import "./confirmation.scss";
 
 const Confirmation: React.FC = () => {
   const { t } = useTranslate();

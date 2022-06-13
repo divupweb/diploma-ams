@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
+
+import SwitchListItemsType from "../../../types/switchListsItemsType";
+import { useDispatch } from "react-redux";
+import { userCreateSliceActions } from "../../../store/userCreate/userCreateSlice";
+import useTranslate from "../../../hooks/useTranslate";
+
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import Switch from "@mui/material/Switch";
-import SwitchListItemsType from "../../../types/switchListsItemsType";
-import { useDispatch } from "react-redux";
-import { userCreateSliceActions } from "../../../store/userCreate/userCreateSlice";
-import useTranslate from "../../../hooks/useTranslate";
 import "./switchList.scss";
 
 type PropsType = { switchListItems: SwitchListItemsType[] };

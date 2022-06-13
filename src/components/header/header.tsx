@@ -1,14 +1,15 @@
 import React from "react";
-import "./header.scss";
-import pakageJson from "../../../package.json";
-import SecurityIcon from "@mui/icons-material/Security";
 import useTranslate from "../../hooks/useTranslate";
 import { Link } from "react-router-dom";
-import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import { useDispatch, useSelector } from "react-redux";
 import StoreType from "../../types/storeType";
 import { authSliceActions } from "../../store/auth/authSlice";
 
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
+import SecurityIcon from "@mui/icons-material/Security";
+import pakageJson from "../../../package.json";
+import "./header.scss";
+import { notificationsSliceAction } from "../../store/notifications/notificationsSlice";
 const enum languagesEnum {
   EN = "en",
   RU = "ru",
@@ -17,11 +18,12 @@ const enum languagesEnum {
 const Header: React.FC = () => {
   const { languageState, setLanguage } = useTranslate();
   const isLogged = useSelector((store: StoreType) => store.auth.isLogged);
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
   const logoutHandler = () => {
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
-    dispath(authSliceActions.setLogged(false));
+    dispatch(authSliceActions.setLogged(false));
+    dispatch(notificationsSliceAction.clear());
   };
 
   return (

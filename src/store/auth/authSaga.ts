@@ -2,7 +2,8 @@ import axios, { AxiosError } from "axios";
 import { all, put, spawn, takeEvery } from "redux-saga/effects";
 import notificationEnum from "../../enums/notificationEnum";
 import dateNow from "../../helpers/dateNow";
-import { activeDirectorySliceActions } from "../activeDirectory/activeDirectorySlice";
+
+import { loadersSliceActions } from "../loaders/loadersSlice";
 import { notificationsSliceAction } from "../notifications/notificationsSlice";
 
 import { authSliceActions } from "./authSlice";
@@ -69,7 +70,7 @@ const authQueryWatcher = function* () {
   yield takeEvery(authSliceActions.authQuery, authQueryWorker);
 };
 const authQueryWorker = function* (data: any) {
-  yield put(activeDirectorySliceActions.setPreLoading(true));
+  yield put(loadersSliceActions.setPreLoading(true));
   try {
     const createTokens: CreateTokens = yield axios.post(
       `/api/auth/create`,
@@ -93,7 +94,7 @@ const authQueryWorker = function* (data: any) {
       })
     );
   } finally {
-    yield put(activeDirectorySliceActions.setPreLoading(false));
+    yield put(loadersSliceActions.setPreLoading(false));
   }
 };
 

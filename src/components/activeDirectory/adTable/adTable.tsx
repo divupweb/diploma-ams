@@ -2,65 +2,46 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useTranslate from "../../../hooks/useTranslate";
 import { activeDirectorySliceActions } from "../../../store/activeDirectory/activeDirectorySlice";
+import usePagination from "../../../hooks/usePagination";
 import Loader from "../../controls/loader/loader";
-import PersonIcon from "@mui/icons-material/Person";
-import EmailIcon from "@mui/icons-material/Email";
-import GroupIcon from "@mui/icons-material/Group";
-import SignalCellularConnectedNoInternet1BarIcon from "@mui/icons-material/SignalCellularConnectedNoInternet1Bar";
-import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
-import DeleteIcon from "@mui/icons-material/Delete";
-import CheckIcon from "@mui/icons-material/Check";
-import UserType from "../../../types/activeDirectory/userType";
-import StoreType from "../../../types/storeType";
 import { confirmationSliceActions } from "../../../store/confirmation/confirmationSlice";
-import CloseIcon from "@mui/icons-material/Close";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
 import Search from "../../controls/search/search";
 import searchUser from "../../../helpers/searchUser";
 import sortUsers from "../../../helpers/sortUsers";
 import userFieldsEnum from "../../../enums/userFieldsEnum";
-import Pagination from "@mui/material/Pagination";
 
-import "./adTable.scss";
+import Pagination from "@mui/material/Pagination";
+import SignalCellularConnectedNoInternet1BarIcon from "@mui/icons-material/SignalCellularConnectedNoInternet1Bar";
 import FieldStateType from "../../../types/activeDirectory/adTable/fieldStateType";
-import usePagination from "../../../hooks/usePagination";
-import { authSliceActions } from "../../../store/auth/authSlice";
+import UserType from "../../../types/activeDirectory/userType";
+import StoreType from "../../../types/storeType";
+import CloseIcon from "@mui/icons-material/Close";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CheckIcon from "@mui/icons-material/Check";
+import PersonIcon from "@mui/icons-material/Person";
+import EmailIcon from "@mui/icons-material/Email";
+import GroupIcon from "@mui/icons-material/Group";
+import "./adTable.scss";
 
 const AdTable: React.FC = () => {
   const { t } = useTranslate();
+  const dispatch = useDispatch();
+
   const users: UserType[] = useSelector(
     (store: StoreType) => store.activeDirectory.users
   );
 
-  const initialState: UserType[] = [];
-  const [adUsers, setAdUsers] = useState(initialState);
-
-  const initialFieldsState: FieldStateType = {
-    login: { used: false, ascFlag: true },
-    firstName: { used: false, ascFlag: true },
-    lastName: { used: false, ascFlag: true },
-    email: { used: false, ascFlag: true },
-    isActive: { used: false, ascFlag: true },
-  };
-
-  const [fieldsSortAsc, setFieldSortAsc] = useState(initialFieldsState);
-
-  const dispatch = useDispatch();
   const loadingStatus: boolean = useSelector(
-    (store: StoreType) => store.activeDirectory.loading
+    (store: StoreType) => store.loaders.loading
   );
   const searchingUser: string = useSelector(
     (store: StoreType) => store.activeDirectory.searchingUser
   );
 
-  const searchHandler = (users: UserType[]) => {
-    setAdUsers(users);
-    let key: keyof FieldStateType;
-    let userClone = users;
-    for (key in fieldsSortAsc) {
-      fieldsSortAsc[key]["used"] = false;
-    }
-  };
+  const initialState: UserType[] = [];
+  const [adUsers, setAdUsers] = useState(initialState);
 
   useEffect(() => {
     let key: keyof FieldStateType;
@@ -76,10 +57,6 @@ const AdTable: React.FC = () => {
       ? setAdUsers(searchUser(userClone, searchingUser))
       : setAdUsers(userClone);
   }, [users]);
-
-  useEffect(() => {
-    dispatch(activeDirectorySliceActions.setSearch(""));
-  }, []);
 
   const dropUser = async (user: UserType) => {
     dispatch(
@@ -100,23 +77,18 @@ const AdTable: React.FC = () => {
     );
   };
 
-  const sortHandler = (users: UserType[], field: keyof FieldStateType) => {
-    setAdUsers(sortUsers(users, field, fieldsSortAsc[field]["ascFlag"]));
-    setFieldSortAsc((prev) => {
-      const prevClone: FieldStateType = { ...prev };
-      let key: keyof FieldStateType;
-      for (key in prevClone) {
-        if (key !== field) {
-          prevClone[key]["ascFlag"] = false;
-          prevClone[key]["used"] = false;
-        } else {
-          prevClone[key]["ascFlag"] = !prevClone[key]["ascFlag"];
-          prevClone[key]["used"] = true;
-        }
-      }
-      return { ...prevClone };
-    });
+  const searchHandler = (users: UserType[]) => {
+    setAdUsers(users);
+    let key: keyof FieldStateType;
+
+    for (key in fieldsSortAsc) {
+      fieldsSortAsc[key]["used"] = false;
+    }
   };
+
+  useEffect(() => {
+    dispatch(activeDirectorySliceActions.setSearch(""));
+  }, []);
 
   let [page, setPage] = useState(1);
   const itemsPerPage = 20;
@@ -127,6 +99,33 @@ const AdTable: React.FC = () => {
   const pageHandleChange = (_: React.ChangeEvent<unknown>, page: number) => {
     setPage(page);
     _adUsers.jump(page);
+  };
+
+  const initialFieldsState: FieldStateType = {
+    login: { used: false, ascFlag: true },
+    firstName: { used: false, ascFlag: true },
+    lastName: { used: false, ascFlag: true },
+    email: { used: false, ascFlag: true },
+    isActive: { used: false, ascFlag: true },
+  };
+  const [fieldsSortAsc, setFieldSortAsc] = useState(initialFieldsState);
+
+  const sortHandler = (users: UserType[], field: keyof FieldStateType) => {
+    setAdUsers(sortUsers(users, field, fieldsSortAsc[field]["ascFlag"]));
+    setFieldSortAsc((prev) => {
+      const prevClone: FieldStateType = { ...prev };
+      let key: keyof FieldStateType;
+      for (key in prevClone) {
+        if (key !== field) {
+          prevClone[key]["ascFlag"] = true;
+          prevClone[key]["used"] = false;
+        } else {
+          prevClone[key]["ascFlag"] = !prevClone[key]["ascFlag"];
+          prevClone[key]["used"] = true;
+        }
+      }
+      return { ...prevClone };
+    });
   };
 
   return (
