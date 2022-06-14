@@ -2,7 +2,8 @@ import axios, { AxiosError } from "axios";
 import { all, put, spawn, takeEvery } from "redux-saga/effects";
 import notificationEnum from "../../enums/notificationEnum";
 import dateNow from "../../helpers/dateNow";
-import { activeDirectorySliceActions } from "../activeDirectory/activeDirectorySlice";
+
+import { loadersSliceActions } from "../loaders/loadersSlice";
 import { notificationsSliceAction } from "../notifications/notificationsSlice";
 
 import { authSliceActions } from "./authSlice";
@@ -24,20 +25,13 @@ type RefreshToken = {
   };
 };
 
-type t1 = {
-  data: {
-    access: string;
-    method: any;
-  };
-};
-
 const tokenValidateWatcher = function* () {
   yield takeEvery(authSliceActions.checkToken, tokenValidateWorker);
 };
 const tokenValidateWorker = function* (data: any) {
   try {
     const checkToken: AccessToken = yield axios.post(
-      `https://studapi.teachmeskills.by/auth/jwt/verify/`,
+      `/api/auth/verify`,
       data.payload
     );
     yield put(authSliceActions.setLogged(true));
@@ -59,7 +53,7 @@ const tokenRefreshWatcher = function* () {
 const tokenRefreshWorker = function* (data: any) {
   try {
     const refreshToken: RefreshToken = yield axios.post(
-      `https://studapi.teachmeskills.by/auth/jwt/refresh/`,
+      `/api/auth/refresh`,
       data.payload
     );
 
@@ -76,24 +70,19 @@ const authQueryWatcher = function* () {
   yield takeEvery(authSliceActions.authQuery, authQueryWorker);
 };
 const authQueryWorker = function* (data: any) {
-  yield put(activeDirectorySliceActions.setPreLoading(true));
+  yield put(loadersSliceActions.setPreLoading(true));
   try {
     const createTokens: CreateTokens = yield axios.post(
-      `https://studapi.teachmeskills.by/auth/jwt/create/`,
+      `/api/auth/create`,
       data.payload
     );
+
     localStorage.setItem("access", createTokens.data.access);
     localStorage.setItem("refresh", createTokens.data.refresh);
 
     if (createTokens.data) {
       yield put(authSliceActions.setLogged(true));
     }
-
-    // const response: FetchAuth = yield axios.post(`api/auth`, data.payload);
-    // console.log(response);
-    // if (response.data) {
-    //   yield put(authSliceActions.setLogged());
-    // }
   } catch (e) {
     const error = e as AxiosError;
     yield put(
@@ -105,7 +94,7 @@ const authQueryWorker = function* (data: any) {
       })
     );
   } finally {
-    yield put(activeDirectorySliceActions.setPreLoading(false));
+    yield put(loadersSliceActions.setPreLoading(false));
   }
 };
 

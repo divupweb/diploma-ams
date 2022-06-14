@@ -1,11 +1,14 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 
 import { all, put, spawn, takeEvery } from "redux-saga/effects";
 import notificationEnum from "../../enums/notificationEnum";
 import dateNow from "../../helpers/dateNow";
+import axiosServer from "../../helpers/interceptor";
 import GroupsType from "../../types/activeDirectory/groupsType";
 
 import UserType from "../../types/activeDirectory/userType";
+import { authSliceActions } from "../auth/authSlice";
+import { loadersSliceActions } from "../loaders/loadersSlice";
 
 import { notificationsSliceAction } from "../notifications/notificationsSlice";
 import { activeDirectorySliceActions } from "./activeDirectorySlice";
@@ -25,25 +28,28 @@ const fetchActiveDirectoryUsersWatcher = function* () {
 };
 
 const fetchActiveDirectoryUsersWorker = function* () {
-  yield put(activeDirectorySliceActions.setLoading(true));
+  yield put(loadersSliceActions.setLoading(true));
   yield put(activeDirectorySliceActions.setUsers([]));
 
   try {
-    const response: FetchUsersType = yield axios.get(`api/users`);
+    const response: FetchUsersType = yield axiosServer.get(`api/users`);
 
     yield put(activeDirectorySliceActions.setUsers(response.data));
   } catch (e) {
     const error = e as AxiosError;
-    yield put(
-      notificationsSliceAction.addNotification({
-        type: notificationEnum.ERROR,
-        message: error.message,
-        date: dateNow(),
-        action: "notifications.user_get_error",
-      })
-    );
+    if (error.response?.status === 401)
+      yield put(authSliceActions.setLogged(false));
+    else
+      yield put(
+        notificationsSliceAction.addNotification({
+          type: notificationEnum.ERROR,
+          message: error.message,
+          date: dateNow(),
+          action: "notifications.user_get_error",
+        })
+      );
   } finally {
-    yield put(activeDirectorySliceActions.setLoading(false));
+    yield put(loadersSliceActions.setLoading(false));
   }
 };
 
@@ -54,9 +60,9 @@ const dropActiveDirectoryUserWatcher = function* () {
   );
 };
 const dropActiveDirectoryUserWorker = function* (data: any) {
-  yield put(activeDirectorySliceActions.setPreLoading(true));
+  yield put(loadersSliceActions.setPreLoading(true));
   try {
-    const response: FetchUsersType = yield axios.delete(
+    const response: FetchUsersType = yield axiosServer.delete(
       `api/user_delete/${data.payload.dn}`
     );
     yield put(activeDirectorySliceActions.setUsers(response.data));
@@ -70,16 +76,20 @@ const dropActiveDirectoryUserWorker = function* (data: any) {
     );
   } catch (e) {
     const error = e as AxiosError;
-    yield put(
-      notificationsSliceAction.addNotification({
-        type: notificationEnum.ERROR,
-        message: error.message,
-        action: "notifications.user_drop_error",
-        date: dateNow(),
-      })
-    );
+    if (error.response?.status === 401)
+      yield put(authSliceActions.setLogged(false));
+    else {
+      yield put(
+        notificationsSliceAction.addNotification({
+          type: notificationEnum.ERROR,
+          message: error.message,
+          action: "notifications.user_drop_error",
+          date: dateNow(),
+        })
+      );
+    }
   } finally {
-    yield put(activeDirectorySliceActions.setPreLoading(false));
+    yield put(loadersSliceActions.setPreLoading(false));
   }
 };
 
@@ -91,9 +101,9 @@ const changeActiveDirectoryStatusWatcher = function* () {
 };
 
 const changeActiveDirectoryStatusWorker = function* (data: any) {
-  yield put(activeDirectorySliceActions.setPreLoading(true));
+  yield put(loadersSliceActions.setPreLoading(true));
   try {
-    const response: FetchUsersType = yield axios.put(
+    const response: FetchUsersType = yield axiosServer.put(
       `api/user_change_status/${data.payload.user.dn}`
     );
 
@@ -108,6 +118,8 @@ const changeActiveDirectoryStatusWorker = function* (data: any) {
     );
   } catch (e) {
     const error = e as AxiosError;
+    if (error.response?.status === 401)
+      yield put(authSliceActions.setLogged(false));
     yield put(
       notificationsSliceAction.addNotification({
         type: notificationEnum.ERROR,
@@ -117,7 +129,7 @@ const changeActiveDirectoryStatusWorker = function* (data: any) {
       })
     );
   } finally {
-    yield put(activeDirectorySliceActions.setPreLoading(false));
+    yield put(loadersSliceActions.setPreLoading(false));
   }
 };
 
@@ -128,13 +140,15 @@ const fetchActiveDirectoryGroupsWatcher = function* () {
   );
 };
 const fetchActiveDirectoryGroupsWorker = function* () {
-  yield put(activeDirectorySliceActions.setLoading(true));
+  yield put(loadersSliceActions.setLoading(true));
   try {
-    const response: FetchGroupsType = yield axios.get(`api/groups`);
+    const response: FetchGroupsType = yield axiosServer.get(`api/groups`);
 
     yield put(activeDirectorySliceActions.setGroups(response.data));
   } catch (e) {
     const error = e as AxiosError;
+    if (error.response?.status === 401)
+      yield put(authSliceActions.setLogged(false));
     yield put(
       notificationsSliceAction.addNotification({
         type: notificationEnum.ERROR,
@@ -144,7 +158,7 @@ const fetchActiveDirectoryGroupsWorker = function* () {
       })
     );
   } finally {
-    yield put(activeDirectorySliceActions.setLoading(false));
+    yield put(loadersSliceActions.setLoading(false));
   }
 };
 
@@ -155,9 +169,9 @@ const addActiveDirectoryUserWatcher = function* () {
   );
 };
 const addActiveDirectoryUserWorker = function* (data: any) {
-  yield put(activeDirectorySliceActions.setPreLoading(true));
+  yield put(loadersSliceActions.setPreLoading(true));
   try {
-    const response: FetchGroupsType = yield axios.post(
+    const response: FetchGroupsType = yield axiosServer.post(
       `api/user_add`,
       data.payload
     );
@@ -172,6 +186,8 @@ const addActiveDirectoryUserWorker = function* (data: any) {
     );
   } catch (e) {
     const error = e as AxiosError;
+    if (error.response?.status === 401)
+      yield put(authSliceActions.setLogged(false));
     yield put(
       notificationsSliceAction.addNotification({
         type: notificationEnum.ERROR,
@@ -181,7 +197,7 @@ const addActiveDirectoryUserWorker = function* (data: any) {
       })
     );
   } finally {
-    yield put(activeDirectorySliceActions.setPreLoading(false));
+    yield put(loadersSliceActions.setPreLoading(false));
   }
 };
 

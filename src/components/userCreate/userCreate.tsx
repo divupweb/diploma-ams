@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
+import useTranslate from "../../hooks/useTranslate";
+import { useDispatch, useSelector } from "react-redux";
+import { activeDirectorySliceActions } from "../../store/activeDirectory/activeDirectorySlice";
+import passwordGenerator from "../../helpers/passwordGenerator";
+import { minLength } from "../../helpers/validators";
+import { notificationsSliceAction } from "../../store/notifications/notificationsSlice";
+import dateNow from "../../helpers/dateNow";
+
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import TextInput from "../controls/textInput/textInput";
 import AddCardIcon from "@mui/icons-material/AddCard";
-import useTranslate from "../../hooks/useTranslate";
-import passwordGenerator from "../../helpers/passwordGenerator";
-import { useDispatch, useSelector } from "react-redux";
-import { activeDirectorySliceActions } from "../../store/activeDirectory/activeDirectorySlice";
 import StoreType from "../../types/storeType";
 import Loader from "../controls/loader/loader";
 import SwitchList from "../controls/switchList/switchList";
@@ -17,14 +21,10 @@ import Looks3Icon from "@mui/icons-material/Looks3";
 import servicesEnum from "../../enums/servicesEnum";
 import Button from "../controls/button/button";
 import SendIcon from "@mui/icons-material/Send";
-import { minLength } from "../../helpers/validators";
-import { notificationsSliceAction } from "../../store/notifications/notificationsSlice";
 import notificationEnum from "../../enums/notificationEnum";
-import dateNow from "../../helpers/dateNow";
 import UserAddType from "../../types/userCreate/userAddType";
-
-import "./userCreate.scss";
 import SwitchListItemsType from "../../types/switchListsItemsType";
+import "./userCreate.scss";
 
 const UserCreate: React.FC = () => {
   useEffect(() => {
@@ -76,7 +76,7 @@ const UserCreate: React.FC = () => {
   ];
 
   const loadingStatus: boolean = useSelector(
-    (store: StoreType) => store.activeDirectory.loading
+    (store: StoreType) => store.loaders.loading
   );
 
   const inputHandler = (value: string, field: string) => {

@@ -2,13 +2,31 @@ import { setupWorker, rest } from "msw";
 import users from "./users.json";
 import groups from "./groups.json";
 
+const checkAccessToken = (accessToken) => {
+  return +accessToken + 10 * 1000 < Date.now();
+};
+const checkRefreshToken = (refreshToken) => {
+  return +refreshToken + 24 * 60 * 60 * 1000 < Date.now();
+};
+
 const worker = setupWorker(
   rest.get("/api/users", (req, res, ctx) => {
+    const token = req.headers.headers.authorization.split(" ")[1];
+
+    if (checkAccessToken(token) || token === "null") {
+      return res(ctx.status(401));
+    }
+
     users.map(() => {});
     return res(ctx.delay(2000), ctx.json(users));
   }),
 
   rest.get("/api/groups", (req, res, ctx) => {
+    const token = req.headers.headers.authorization.split(" ")[1];
+
+    if (checkAccessToken(token) || token === "null") {
+      return res(ctx.status(401));
+    }
     groups.pcGroups.all.map(() => {});
     groups.pcGroups.default.map(() => {});
     groups.userGroups.all.map(() => {});
@@ -18,6 +36,11 @@ const worker = setupWorker(
   }),
 
   rest.put("/api/user_change_status/:dn", (req, res, ctx) => {
+    const token = req.headers.headers.authorization.split(" ")[1];
+
+    if (checkAccessToken(token) || token === "null") {
+      return res(ctx.status(401));
+    }
     const userDnToChange = req.params.dn;
     let flag = false;
 
@@ -33,6 +56,12 @@ const worker = setupWorker(
   }),
 
   rest.delete("/api/user_delete/:dn", (req, res, ctx) => {
+    const token = req.headers.headers.authorization.split(" ")[1];
+
+    if (checkAccessToken(token) || token === "null") {
+      return res(ctx.status(401));
+    }
+
     const userDnToDrop = req.params.dn;
     let flag = false;
     users = users.filter((user) => {
@@ -46,6 +75,12 @@ const worker = setupWorker(
   }),
 
   rest.post("/api/user_add", (req, res, ctx) => {
+    const token = req.headers.headers.authorization.split(" ")[1];
+
+    if (checkAccessToken(token) || token === "null") {
+      return res(ctx.status(401));
+    }
+
     const newUser = {
       dn: "" + Math.random(),
       login: req.body.login,
@@ -60,9 +95,26 @@ const worker = setupWorker(
     return res(ctx.delay(2000), ctx.json(users));
   }),
 
-  rest.post("/api/auth", (req, res, ctx) => {
-    const response = req.body.login == 123 && req.body.password == 123;
-    return res(ctx.delay(1000), ctx.json(response));
+  rest.post("/api/auth/create", (req, res, ctx) => {
+    const check = req.body.login === "123" && req.body.password === "123";
+
+    if (check) {
+      return res(
+        ctx.delay(2000),
+        ctx.json({ access: Date.now(), refresh: Date.now() })
+      );
+    }
+    return res(ctx.delay(2000), ctx.status(403));
+  }),
+  rest.post("/api/auth/verify", (req, res, ctx) => {
+    return checkAccessToken(req.body.token)
+      ? res(ctx.status(403))
+      : res(ctx.delay(500), ctx.json({}));
+  }),
+  rest.post("/api/auth/refresh", (req, res, ctx) => {
+    return checkRefreshToken(req.body.refresh)
+      ? res(ctx.status(403))
+      : res(ctx.delay(500), ctx.json({ access: Date.now() }));
   })
 );
 

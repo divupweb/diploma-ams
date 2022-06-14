@@ -1,15 +1,17 @@
 import React from "react";
 import "./notifications.scss";
-import NewReleasesIcon from "@mui/icons-material/NewReleases";
-import CloseIcon from "@mui/icons-material/Close";
+
 import { useDispatch, useSelector } from "react-redux";
+import { notificationsSliceAction } from "../../store/notifications/notificationsSlice";
+import useTranslate from "../../hooks/useTranslate";
+
 import StoreType from "../../types/storeType";
 import NotificationType from "../../types/notifications/notificationType";
 import notificationEnum from "../../enums/notificationEnum";
-import { notificationsSliceAction } from "../../store/notifications/notificationsSlice";
-import useTranslate from "../../hooks/useTranslate";
 import DoneIcon from "@mui/icons-material/Done";
 import WarningIcon from "@mui/icons-material/Warning";
+import NewReleasesIcon from "@mui/icons-material/NewReleases";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Notifications: React.FC = () => {
   const notifications: NotificationType[] = useSelector(

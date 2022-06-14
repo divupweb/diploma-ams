@@ -3,7 +3,18 @@
   padding: 10px 15px;
   background-color: var(--background-color-1);
   z-index: 1;
-
+  &__leave {
+    color: var(--text-color-3);
+    margin-left: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    svg {
+      font-size: 2rem;
+    }
+    &:hover {
+      color: var(--text-color-1);
+    }
+  }
   &__container {
     display: flex;
     justify-content: space-between;
@@ -30,6 +41,7 @@
     white-space: nowrap;
     display: flex;
     margin: 0 -5px;
+    align-items: center;
   }
   &__language-link {
     font-size: 1rem;

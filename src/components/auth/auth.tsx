@@ -1,37 +1,50 @@
-import Button from "../controls/button/button";
-import TextInput from "../controls/textInput/textInput";
-import "./auth.scss";
-import PersonIcon from "@mui/icons-material/Person";
+import { useEffect, useState } from "react";
 import useTranslate from "../../hooks/useTranslate";
-import LockIcon from "@mui/icons-material/Lock";
-import KeyIcon from "@mui/icons-material/Key";
 import { useDispatch, useSelector } from "react-redux";
 import { minLength } from "../../helpers/validators";
-import authEnum from "../../enums/authEnum";
-import { useState } from "react";
 import { authSliceActions } from "../../store/auth/authSlice";
+
+import Button from "../controls/button/button";
+import TextInput from "../controls/textInput/textInput";
+import PersonIcon from "@mui/icons-material/Person";
+import LockIcon from "@mui/icons-material/Lock";
+import KeyIcon from "@mui/icons-material/Key";
+import authEnum from "../../enums/authEnum";
+
+import "./auth.scss";
 import StoreType from "../../types/storeType";
+import { notificationsSliceAction } from "../../store/notifications/notificationsSlice";
 
 const Auth: React.FC = () => {
   const { t } = useTranslate();
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
   const [notification, setNotification] = useState(authEnum.DEFAULT);
-  const isLogged: boolean = useSelector(
-    (store: StoreType) => store.auth.isLogged
+  const notifications = useSelector(
+    (store: StoreType) => store.notifications.notifications
   );
+
+  useEffect(() => {
+    notifications.find(
+      (notification) => notification.action === "auth.conntect-error"
+    ) && setNotification(authEnum.ERROR);
+  }, [notifications]);
 
   const submitHandler = (event: React.FocusEvent<HTMLFormElement>) => {
     event.preventDefault();
     setNotification(authEnum.DEFAULT);
+    dispatch(notificationsSliceAction.clear());
+
     const authLogin = event.target.auth_login.value;
     const authPassword = event.target.auth_password.value;
 
     if (minLength(authLogin, 3) || minLength(authPassword, 3)) {
-      setNotification(authEnum.VALIDATION);
+      setTimeout(() => {
+        setNotification(authEnum.VALIDATION);
+      }, 0);
     } else {
-      dispath(
+      dispatch(
         authSliceActions.authQuery({
-          email: authLogin,
+          login: authLogin,
           password: authPassword,
         })
       );
@@ -69,5 +82,3 @@ const Auth: React.FC = () => {
   );
 };
 export default Auth;
-//fe19@front.end
-//FE19-onl/Front End

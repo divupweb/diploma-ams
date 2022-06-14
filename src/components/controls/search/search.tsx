@@ -4,7 +4,6 @@ import searchUser from "../../../helpers/searchUser";
 import { useDispatch } from "react-redux";
 import { activeDirectorySliceActions } from "../../../store/activeDirectory/activeDirectorySlice";
 import UserType from "../../../types/activeDirectory/userType";
-import FieldStateType from "../../../types/activeDirectory/adTable/fieldStateType";
 
 type PropsType = {
   id: string;
